@@ -1,0 +1,35 @@
+[
+  {
+    "id": "love",
+    "title": "Love Status",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 5,
+    "durationPerImage": 2,
+    "effect": "cinematic",
+    "transition": "fade",
+    "timeline": [
+      {"duration": 2, "effect": "cinematic", "transition": "fade"},
+      {"duration": 2, "effect": "warm", "transition": "slide_left"},
+      {"duration": 2, "effect": "cool", "transition": "zoom"},
+      {"duration": 2, "effect": "film", "transition": "wipe"},
+      {"duration": 2, "effect": "vignette", "transition": "slide_up"}
+    ]
+  },
+  {
+    "id": "sad",
+    "title": "Sad Status",
+    "previewVideo": "assets/templates/previews/sad_preview.mp4",
+    "music": "assets/templates/music/sad.mp3",
+    "slots": 4,
+    "durationPerImage": 3,
+    "effect": "cool",
+    "transition": "fade",
+    "timeline": [
+      {"duration": 3, "effect": "coRol", "transition": "fade"},
+      {"duration": 3, "effect": "bw", "transition": "slide_up"},
+      {"duration": 3, "effect": "cinematic", "transition": "zoom"},
+      {"duration": 3, "effect": "film", "transition": "wipe"}
+    ]
+  }
+]

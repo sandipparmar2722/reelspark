@@ -1,0 +1,479 @@
+[
+  {
+    "id": "birthday_001",
+    "title": "Birthday Bash",
+    "category": "Birthday",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "bpm": 128,
+    "slots": 6,
+    "durationPerImage": 2,
+    "texts": [
+      {
+        "text": "HAPPY",
+        "start": 0,
+        "end": 2,
+        "animation": "beat_pop",
+        "position": "top",
+        "style": "bold_white"
+      },
+      {
+        "text": "BIRTHDAY",
+        "start": 2,
+        "end": 4,
+        "animation": "zoom_in",
+        "position": "center",
+        "style": "gold"
+      },
+      {
+        "text": "🎉",
+        "start": 4,
+        "end": 12,
+        "animation": "beat_pop",
+        "position": "bottom",
+        "style": "neon"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/bds.png",
+        "start": 0,
+        "end": 6,
+        "position": "bottom"
+      },
+      {
+        "asset": "assets/templates/stickers/birthday.gif",
+        "start": 6,
+        "end": 12,
+        "position": "top"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 2,
+        "effect": "cinematic",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 2,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "slide_up",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 2,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "zoom_in"
+      }
+    ]
+  },
+  {
+    "id": "birthday_002",
+    "title": "Cake & Candles",
+    "category": "Birthday",
+    "previewVideo": "assets/templates/previews/cake_candles.mp4",
+    "music": "assets/templates/music/birthday_soft.mp3",
+    "bpm": 100,
+    "slots": 8,
+    "durationPerImage": 2,
+    "texts": [
+      {
+        "text": "Make a Wish",
+        "start": 0,
+        "end": 4,
+        "animation": "fade",
+        "position": "center",
+        "style": "gold"
+      },
+      {
+        "text": "🎂",
+        "start": 8,
+        "end": 12,
+        "animation": "zoom_in",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "Celebrate You!",
+        "start": 12,
+        "end": 16,
+        "animation": "beat_pop",
+        "position": "bottom",
+        "style": "bold_white"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/sparkles.mp4",
+        "start": 0,
+        "end": 16,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/hearts.mp4",
+        "start": 8,
+        "end": 16,
+        "position": "bottom"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 2,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 2,
+        "effect": "cinematic",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "slide_left",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 2,
+        "effect": "default",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 2,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "zoom_out"
+      }
+    ]
+  },
+  {
+    "id": "birthday_003",
+    "title": "Party Vibes",
+    "category": "Birthday",
+    "previewVideo": "assets/templates/previews/party_vibes.mp4",
+    "music": "assets/templates/music/birthday_party.mp3",
+    "bpm": 140,
+    "slots": 5,
+    "durationPerImage": 1,
+    "texts": [
+      {
+        "text": "LET'S",
+        "start": 0,
+        "end": 1,
+        "animation": "beat_pop",
+        "position": "top",
+        "style": "neon"
+      },
+      {
+        "text": "PARTY",
+        "start": 1,
+        "end": 2,
+        "animation": "beat_pop",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "🎊🎉🎈",
+        "start": 3,
+        "end": 5,
+        "animation": "zoom_in",
+        "position": "bottom",
+        "style": "gold"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/confetti.mp4",
+        "start": 0,
+        "end": 5,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/party_lights.mp4",
+        "start": 2,
+        "end": 5,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 1,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "kenburns"
+      }
+    ]
+  },
+  {
+    "id": "birthday_004",
+    "title": "Golden Memories",
+    "category": "Birthday",
+    "previewVideo": "assets/templates/previews/golden_memories.mp4",
+    "music": "assets/templates/music/birthday_elegant.mp3",
+    "bpm": 90,
+    "slots": 7,
+    "durationPerImage": 3,
+    "texts": [
+      {
+        "text": "Another Year",
+        "start": 0,
+        "end": 6,
+        "animation": "fade",
+        "position": "top",
+        "style": "gold"
+      },
+      {
+        "text": "Another Blessing",
+        "start": 6,
+        "end": 12,
+        "animation": "fade",
+        "position": "center",
+        "style": "gold"
+      },
+      {
+        "text": "✨",
+        "start": 15,
+        "end": 21,
+        "animation": "zoom_in",
+        "position": "bottom",
+        "style": "neon"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/sparkles.mp4",
+        "start": 0,
+        "end": 21,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/gold_frame.mp4",
+        "start": 10,
+        "end": 21,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "slide_up",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "zoom_in"
+      }
+    ]
+  },
+  {
+    "id": "birthday_005",
+    "title": "Birthday Beat Drop",
+    "category": "Birthday",
+    "previewVideo": "assets/templates/previews/beat_drop.mp4",
+    "music": "assets/templates/music/birthday_edm.mp3",
+    "bpm": 150,
+    "slots": 10,
+    "durationPerImage": 1,
+    "texts": [
+      {
+        "text": "IT'S YOUR DAY",
+        "start": 0,
+        "end": 2,
+        "animation": "beat_pop",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "🔥",
+        "start": 3,
+        "end": 5,
+        "animation": "beat_pop",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "CELEBRATE",
+        "start": 7,
+        "end": 10,
+        "animation": "beat_pop",
+        "position": "bottom",
+        "style": "bold_white"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/confetti.mp4",
+        "start": 0,
+        "end": 10,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/neon_lights.mp4",
+        "start": 5,
+        "end": 10,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 1,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "kenburns"
+      }
+    ]
+  }
+]
+

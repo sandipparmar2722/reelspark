@@ -1,0 +1,479 @@
+  [
+  {
+    "id": "festival_001",
+    "title": "Diwali Celebration",
+    "category": "Festival",
+    "previewVideo": "assets/templates/previews/diwali_celebration.mp4",
+    "music": "assets/templates/music/festival_diwali.mp3",
+    "bpm": 110,
+    "slots": 6,
+    "durationPerImage": 2,
+    "texts": [
+      {
+        "text": "Happy Diwali",
+        "start": 0,
+        "end": 4,
+        "animation": "beat_pop",
+        "position": "top",
+        "style": "gold"
+      },
+      {
+        "text": "🪔",
+        "start": 4,
+        "end": 8,
+        "animation": "zoom_in",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "Festival of Lights",
+        "start": 8,
+        "end": 12,
+        "animation": "fade",
+        "position": "bottom",
+        "style": "gold"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/diwali_lights.mp4",
+        "start": 0,
+        "end": 12,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/sparkles.mp4",
+        "start": 6,
+        "end": 12,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 2,
+        "effect": "cinematic",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 2,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "slide_up",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 2,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "zoom_in"
+      }
+    ]
+  },
+  {
+    "id": "festival_002",
+    "title": "Diya Lights",
+    "category": "Festival",
+    "previewVideo": "assets/templates/previews/diya_lights.mp4",
+    "music": "assets/templates/music/festival_traditional.mp3",
+    "bpm": 95,
+    "slots": 8,
+    "durationPerImage": 2,
+    "texts": [
+      {
+        "text": "Shubh Deepavali",
+        "start": 0,
+        "end": 6,
+        "animation": "fade",
+        "position": "center",
+        "style": "gold"
+      },
+      {
+        "text": "✨🪔✨",
+        "start": 8,
+        "end": 12,
+        "animation": "beat_pop",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "May your life shine bright",
+        "start": 12,
+        "end": 16,
+        "animation": "fade",
+        "position": "bottom",
+        "style": "gold"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/diya_flame.mp4",
+        "start": 0,
+        "end": 16,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/rangoli.mp4",
+        "start": 8,
+        "end": 16,
+        "position": "bottom"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 2,
+        "effect": "cinematic",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 2,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "slide_left",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 2,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 2,
+        "effect": "default",
+        "transition": "fade",
+        "motion": "zoom_out"
+      }
+    ]
+  },
+  {
+    "id": "festival_003",
+    "title": "Festive Fireworks",
+    "category": "Festival",
+    "previewVideo": "assets/templates/previews/festive_fireworks.mp4",
+    "music": "assets/templates/music/festival_upbeat.mp3",
+    "bpm": 130,
+    "slots": 10,
+    "durationPerImage": 1,
+    "texts": [
+      {
+        "text": "DIWALI",
+        "start": 0,
+        "end": 2,
+        "animation": "beat_pop",
+        "position": "top",
+        "style": "neon"
+      },
+      {
+        "text": "VIBES",
+        "start": 2,
+        "end": 4,
+        "animation": "beat_pop",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "🎆🎇🎆",
+        "start": 5,
+        "end": 10,
+        "animation": "zoom_in",
+        "position": "bottom",
+        "style": "gold"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/fireworks.mp4",
+        "start": 0,
+        "end": 10,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/sparkles.mp4",
+        "start": 5,
+        "end": 10,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 1,
+        "effect": "warm",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 1,
+        "effect": "warm",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 1,
+        "effect": "cinematic",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 1,
+        "effect": "warm",
+        "transition": "cut",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "warm",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 1,
+        "effect": "cinematic",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 1,
+        "effect": "warm",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "fade",
+        "motion": "kenburns"
+      }
+    ]
+  },
+  {
+    "id": "festival_004",
+    "title": "Golden Diwali",
+    "category": "Festival",
+    "previewVideo": "assets/templates/previews/golden_diwali.mp4",
+    "music": "assets/templates/music/festival_classical.mp3",
+    "bpm": 85,
+    "slots": 7,
+    "durationPerImage": 3,
+    "texts": [
+      {
+        "text": "Wishing You",
+        "start": 0,
+        "end": 6,
+        "animation": "fade",
+        "position": "top",
+        "style": "gold"
+      },
+      {
+        "text": "A Prosperous Diwali",
+        "start": 6,
+        "end": 14,
+        "animation": "fade",
+        "position": "center",
+        "style": "gold"
+      },
+      {
+        "text": "🌟",
+        "start": 18,
+        "end": 21,
+        "animation": "zoom_in",
+        "position": "bottom",
+        "style": "neon"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/diwali_lights.mp4",
+        "start": 0,
+        "end": 21,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/gold_frame.mp4",
+        "start": 10,
+        "end": 21,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "slide_up",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "zoom_in"
+      }
+    ]
+  },
+  {
+    "id": "festival_005",
+    "title": "Rangoli Colors",
+    "category": "Festival",
+    "previewVideo": "assets/templates/previews/rangoli_colors.mp4",
+    "music": "assets/templates/music/festival_fusion.mp3",
+    "bpm": 120,
+    "slots": 5,
+    "durationPerImage": 2,
+    "texts": [
+      {
+        "text": "Colors of",
+        "start": 0,
+        "end": 3,
+        "animation": "beat_pop",
+        "position": "top",
+        "style": "neon"
+      },
+      {
+        "text": "Diwali",
+        "start": 3,
+        "end": 7,
+        "animation": "zoom_in",
+        "position": "center",
+        "style": "gold"
+      },
+      {
+        "text": "🌈✨",
+        "start": 7,
+        "end": 10,
+        "animation": "beat_pop",
+        "position": "bottom",
+        "style": "neon"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/rangoli.mp4",
+        "start": 0,
+        "end": 10,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/diya_flame.mp4",
+        "start": 5,
+        "end": 10,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 2,
+        "effect": "cinematic",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 2,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "kenburns"
+      }
+    ]
+  }
+]
+

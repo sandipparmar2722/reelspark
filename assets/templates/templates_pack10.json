@@ -1,0 +1,379 @@
+[
+  {
+    "id": "love_rich_01",
+    "title": "Love",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 5,
+    "durationPerImage": 2,
+    "effect": "cinematic",
+    "transition": "fade",
+    "category": "Love",
+    "timeline": [
+      {"duration": 2, "effect": "cinematic", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 2, "effect": "warm", "transition": "slide_left", "motion": "pan_right"},
+      {"duration": 2, "effect": "cool", "transition": "zoom", "motion": "pan_up"},
+      {"duration": 2, "effect": "film", "transition": "wipe", "motion": "zoom_out"},
+      {"duration": 2, "effect": "vignette", "transition": "slide_up", "motion": "pan_left"}
+    ]
+  },
+  {
+    "id": "love_rich_02",
+    "title": "Love • Rich Template 02",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 6,
+    "durationPerImage": 2,
+    "effect": "default",
+    "transition": "fade",
+    "category": "Love",
+    "timeline": [
+      {"duration": 2, "effect": "warm", "transition": "fade", "motion": "kenburns"},
+      {"duration": 2, "effect": "bw", "transition": "slide_up", "motion": "pan_up"},
+      {"duration": 2, "effect": "cinematic", "transition": "zoom", "motion": "zoom_in"},
+      {"duration": 2, "effect": "cool", "transition": "slide_left", "motion": "pan_left"},
+      {"duration": 2, "effect": "film", "transition": "fade", "motion": "pan_right"},
+      {"duration": 2, "effect": "vignette", "transition": "wipe", "motion": "zoom_out"}
+    ]
+  },
+  {
+    "id": "sad_rich_01",
+    "title": "Sad • Rich Template 01",
+    "previewVideo": "assets/templates/previews/sad_preview.mp4",
+    "music": "assets/templates/music/sad.mp3",
+    "slots": 5,
+    "durationPerImage": 3,
+    "effect": "cinematic",
+    "transition": "fade",
+    "category": "For you",
+    "timeline": [
+      {"duration": 3, "effect": "cinematic", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 3, "effect": "cool", "transition": "slide_left", "motion": "pan_left"},
+      {"duration": 3, "effect": "bw", "transition": "zoom", "motion": "zoom_out"},
+      {"duration": 3, "effect": "film", "transition": "wipe", "motion": "pan_right"},
+      {"duration": 3, "effect": "vignette", "transition": "fade", "motion": "kenburns"}
+    ]
+  },
+  {
+    "id": "sad_rich_02",
+    "title": "Sad • Rich Template 02",
+    "previewVideo": "assets/templates/previews/sad_preview.mp4",
+    "music": "assets/templates/music/sad.mp3",
+    "slots": 6,
+    "durationPerImage": 3,
+    "effect": "default",
+    "transition": "fade",
+    "category": "For you",
+    "timeline": [
+      {"duration": 3, "effect": "cool", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 3, "effect": "cinematic", "transition": "slide_up", "motion": "pan_up"},
+      {"duration": 3, "effect": "bw", "transition": "zoom", "motion": "zoom_out"},
+      {"duration": 3, "effect": "film", "transition": "slide_left", "motion": "pan_left"},
+      {"duration": 3, "effect": "vignette", "transition": "fade", "motion": "kenburns"},
+      {"duration": 3, "effect": "warm", "transition": "wipe", "motion": "pan_right"}
+    ]
+  },
+  {
+    "id": "mix_rich_03",
+    "title": "Mix • Rich Template 03",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 7,
+    "durationPerImage": 2,
+    "effect": "cinematic",
+    "transition": "fade",
+    "category": "New",
+    "timeline": [
+      {"duration": 2, "effect": "cinematic", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 2, "effect": "warm", "transition": "slide_left", "motion": "pan_left"},
+      {"duration": 2, "effect": "cool", "transition": "slide_up", "motion": "pan_up"},
+      {"duration": 2, "effect": "bw", "transition": "zoom", "motion": "zoom_out"},
+      {"duration": 2, "effect": "film", "transition": "fade", "motion": "pan_right"},
+      {"duration": 2, "effect": "vignette", "transition": "wipe", "motion": "kenburns"},
+      {"duration": 2, "effect": "default", "transition": "fade", "motion": "pan_down"}
+    ]
+  },
+  {
+    "id": "mix_rich_04",
+    "title": "Mix • Rich Template 04",
+    "previewVideo": "assets/templates/previews/sad_preview.mp4",
+    "music": "assets/templates/music/sad.mp3",
+    "slots": 7,
+    "durationPerImage": 2,
+    "effect": "cool",
+    "transition": "fade",
+    "category": "New",
+    "timeline": [
+      {"duration": 2, "effect": "cool", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 2, "effect": "cinematic", "transition": "slide_left", "motion": "pan_left"},
+      {"duration": 2, "effect": "warm", "transition": "zoom", "motion": "zoom_out"},
+      {"duration": 2, "effect": "film", "transition": "wipe", "motion": "pan_right"},
+      {"duration": 2, "effect": "bw", "transition": "slide_up", "motion": "pan_up"},
+      {"duration": 2, "effect": "vignette", "transition": "fade", "motion": "kenburns"},
+      {"duration": 2, "effect": "default", "transition": "fade", "motion": "pan_down"}
+    ]
+  },
+  {
+    "id": "love_rich_05",
+    "title": "Love • Rich Template 05",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 5,
+    "durationPerImage": 2,
+    "effect": "warm",
+    "transition": "fade",
+    "category": "Love",
+    "timeline": [
+      {"duration": 2, "effect": "warm", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 2, "effect": "cinematic", "transition": "zoom", "motion": "zoom_out"},
+      {"duration": 2, "effect": "cool", "transition": "slide_left", "motion": "pan_left"},
+      {"duration": 2, "effect": "film", "transition": "slide_up", "motion": "pan_up"},
+      {"duration": 2, "effect": "vignette", "transition": "wipe", "motion": "kenburns"}
+    ]
+  },
+  {
+    "id": "sad_rich_06",
+    "title": "Sad • Rich Template 06",
+    "previewVideo": "assets/templates/previews/sad_preview.mp4",
+    "music": "assets/templates/music/sad.mp3",
+    "slots": 5,
+    "durationPerImage": 3,
+    "effect": "cool",
+    "transition": "fade",
+    "category": "For you",
+    "timeline": [
+      {"duration": 3, "effect": "cool", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 3, "effect": "bw", "transition": "slide_left", "motion": "pan_left"},
+      {"duration": 3, "effect": "cinematic", "transition": "zoom", "motion": "zoom_out"},
+      {"duration": 3, "effect": "film", "transition": "wipe", "motion": "pan_right"},
+      {"duration": 3, "effect": "vignette", "transition": "fade", "motion": "kenburns"}
+    ]
+  },
+  {
+    "id": "mix_rich_07",
+    "title": "Mix • Rich Template 07",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 6,
+    "durationPerImage": 2,
+    "effect": "film",
+    "transition": "fade",
+    "category": "New",
+    "timeline": [
+      {"duration": 2, "effect": "film", "transition": "fade", "motion": "kenburns"},
+      {"duration": 2, "effect": "warm", "transition": "slide_up", "motion": "pan_up"},
+      {"duration": 2, "effect": "cool", "transition": "zoom", "motion": "zoom_in"},
+      {"duration": 2, "effect": "bw", "transition": "wipe", "motion": "pan_left"},
+      {"duration": 2, "effect": "cinematic", "transition": "fade", "motion": "zoom_out"},
+      {"duration": 2, "effect": "vignette", "transition": "slide_left", "motion": "pan_right"}
+    ]
+  },
+  {
+    "id": "mix_rich_08",
+    "title": "Mix • Rich Template 08",
+    "previewVideo": "assets/templates/previews/sad_preview.mp4",
+    "music": "assets/templates/music/sad.mp3",
+    "slots": 6,
+    "durationPerImage": 2,
+    "effect": "cinematic",
+    "transition": "fade",
+    "category": "New",
+    "timeline": [
+      {"duration": 2, "effect": "cinematic", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 2, "effect": "cool", "transition": "slide_left", "motion": "pan_left"},
+      {"duration": 2, "effect": "warm", "transition": "zoom", "motion": "zoom_out"},
+      {"duration": 2, "effect": "film", "transition": "wipe", "motion": "pan_right"},
+      {"duration": 2, "effect": "bw", "transition": "slide_up", "motion": "pan_up"},
+      {"duration": 2, "effect": "vignette", "transition": "fade", "motion": "kenburns"}
+    ]
+  },
+  {
+    "id": "capcut_neon_glow",
+    "title": "Neon Glow",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 5,
+    "durationPerImage": 2,
+    "effect": "warm",
+    "transition": "fade",
+    "category": "New",
+    "timeline": [
+      {"duration": 2, "effect": "warm", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 2, "effect": "warm", "transition": "fade", "motion": "zoom_out"},
+      {"duration": 2, "effect": "warm", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 2, "effect": "warm", "transition": "fade", "motion": "zoom_out"},
+      {"duration": 2, "effect": "warm", "transition": "fade", "motion": "kenburns"}
+    ]
+  },
+  {
+    "id": "capcut_fast_cuts",
+    "title": "Fast Cuts",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 8,
+    "durationPerImage": 1,
+    "effect": "default",
+    "transition": "cut",
+    "category": "New",
+    "timeline": [
+      {"duration": 1, "effect": "default", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 1, "effect": "default", "transition": "fade", "motion": "zoom_out"},
+      {"duration": 1, "effect": "default", "transition": "fade", "motion": "pan_left"},
+      {"duration": 1, "effect": "default", "transition": "fade", "motion": "pan_right"},
+      {"duration": 1, "effect": "default", "transition": "fade", "motion": "pan_up"},
+      {"duration": 1, "effect": "default", "transition": "fade", "motion": "pan_down"},
+      {"duration": 1, "effect": "default", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 1, "effect": "default", "transition": "fade", "motion": "kenburns"}
+    ]
+  },
+  {
+    "id": "capcut_smooth_slide",
+    "title": "Smooth Slide",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 6,
+    "durationPerImage": 2,
+    "effect": "cinematic",
+    "transition": "slide_left",
+    "category": "New",
+    "timeline": [
+      {"duration": 2, "effect": "cinematic", "transition": "slide_left", "motion": "pan_right"},
+      {"duration": 2, "effect": "cinematic", "transition": "slide_left", "motion": "pan_right"},
+      {"duration": 2, "effect": "cinematic", "transition": "slide_left", "motion": "pan_right"},
+      {"duration": 2, "effect": "cinematic", "transition": "slide_left", "motion": "pan_right"},
+      {"duration": 2, "effect": "cinematic", "transition": "slide_left", "motion": "pan_right"},
+      {"duration": 2, "effect": "cinematic", "transition": "slide_left", "motion": "pan_right"}
+    ]
+  },
+  {
+    "id": "capcut_vertical_stack",
+    "title": "Vertical Stack",
+    "previewVideo": "assets/templates/previews/sad_preview.mp4",
+    "music": "assets/templates/music/sad.mp3",
+    "slots": 5,
+    "durationPerImage": 2,
+    "effect": "cool",
+    "transition": "slide_up",
+    "category": "For you",
+    "timeline": [
+      {"duration": 2, "effect": "cool", "transition": "slide_up", "motion": "pan_down"},
+      {"duration": 2, "effect": "cool", "transition": "slide_up", "motion": "pan_down"},
+      {"duration": 2, "effect": "cool", "transition": "slide_up", "motion": "pan_down"},
+      {"duration": 2, "effect": "cool", "transition": "slide_up", "motion": "pan_down"},
+      {"duration": 2, "effect": "cool", "transition": "slide_up", "motion": "pan_down"}
+    ]
+  },
+  {
+    "id": "capcut_vintage_film",
+    "title": "Vintage Film",
+    "previewVideo": "assets/templates/previews/sad_preview.mp4",
+    "music": "assets/templates/music/sad.mp3",
+    "slots": 6,
+    "durationPerImage": 3,
+    "effect": "film",
+    "transition": "fade",
+    "category": "For you",
+    "timeline": [
+      {"duration": 3, "effect": "film", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 3, "effect": "film", "transition": "fade", "motion": "pan_left"},
+      {"duration": 3, "effect": "film", "transition": "fade", "motion": "zoom_out"},
+      {"duration": 3, "effect": "film", "transition": "fade", "motion": "pan_right"},
+      {"duration": 3, "effect": "film", "transition": "fade", "motion": "kenburns"},
+      {"duration": 3, "effect": "film", "transition": "fade", "motion": "zoom_in"}
+    ]
+  },
+  {
+    "id": "capcut_monochrome",
+    "title": "Monochrome",
+    "previewVideo": "assets/templates/previews/sad_preview.mp4",
+    "music": "assets/templates/music/sad.mp3",
+    "slots": 5,
+    "durationPerImage": 3,
+    "effect": "bw",
+    "transition": "wipe",
+    "category": "For you",
+    "timeline": [
+      {"duration": 3, "effect": "bw", "transition": "wipe", "motion": "zoom_in"},
+      {"duration": 3, "effect": "bw", "transition": "wipe", "motion": "pan_left"},
+      {"duration": 3, "effect": "bw", "transition": "wipe", "motion": "zoom_out"},
+      {"duration": 3, "effect": "bw", "transition": "wipe", "motion": "pan_right"},
+      {"duration": 3, "effect": "bw", "transition": "wipe", "motion": "kenburns"}
+    ]
+  },
+  {
+    "id": "capcut_dynamic_zoom",
+    "title": "Dynamic Zoom",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 6,
+    "durationPerImage": 2,
+    "effect": "default",
+    "transition": "zoom",
+    "category": "New",
+    "timeline": [
+      {"duration": 2, "effect": "default", "transition": "zoom", "motion": "zoom_in"},
+      {"duration": 2, "effect": "default", "transition": "zoom", "motion": "zoom_out"},
+      {"duration": 2, "effect": "default", "transition": "zoom", "motion": "zoom_in"},
+      {"duration": 2, "effect": "default", "transition": "zoom", "motion": "zoom_out"},
+      {"duration": 2, "effect": "default", "transition": "zoom", "motion": "zoom_in"},
+      {"duration": 2, "effect": "default", "transition": "zoom", "motion": "zoom_out"}
+    ]
+  },
+  {
+    "id": "capcut_dreamy_vignette",
+    "title": "Dreamy Vignette",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 5,
+    "durationPerImage": 3,
+    "effect": "vignette",
+    "transition": "fade",
+    "category": "Love",
+    "timeline": [
+      {"duration": 3, "effect": "vignette", "transition": "fade", "motion": "kenburns"},
+      {"duration": 3, "effect": "vignette", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 3, "effect": "vignette", "transition": "fade", "motion": "kenburns"},
+      {"duration": 3, "effect": "vignette", "transition": "fade", "motion": "zoom_out"},
+      {"duration": 3, "effect": "vignette", "transition": "fade", "motion": "kenburns"}
+    ]
+  },
+  {
+    "id": "capcut_travel_vlog",
+    "title": "Travel Vlog",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 7,
+    "durationPerImage": 2,
+    "effect": "cinematic",
+    "transition": "wipe",
+    "category": "For you",
+    "timeline": [
+      {"duration": 2, "effect": "cinematic", "transition": "wipe", "motion": "pan_right"},
+      {"duration": 2, "effect": "cinematic", "transition": "slide_left", "motion": "pan_left"},
+      {"duration": 2, "effect": "cinematic", "transition": "wipe", "motion": "pan_up"},
+      {"duration": 2, "effect": "cinematic", "transition": "slide_up", "motion": "pan_down"},
+      {"duration": 2, "effect": "cinematic", "transition": "wipe", "motion": "zoom_in"},
+      {"duration": 2, "effect": "cinematic", "transition": "slide_left", "motion": "zoom_out"},
+      {"duration": 2, "effect": "cinematic", "transition": "fade", "motion": "kenburns"}
+    ]
+  },
+  {
+    "id": "capcut_romantic_story",
+    "title": "Romantic Story",
+    "previewVideo": "assets/templates/previews/love_preview.mp4",
+    "music": "assets/templates/music/love.mp3",
+    "slots": 6,
+    "durationPerImage": 3,
+    "effect": "warm",
+    "transition": "fade",
+    "category": "Love",
+    "timeline": [
+      {"duration": 3, "effect": "warm", "transition": "fade", "motion": "zoom_in"},
+      {"duration": 3, "effect": "warm", "transition": "fade", "motion": "kenburns"},
+      {"duration": 3, "effect": "warm", "transition": "fade", "motion": "pan_left"},
+      {"duration": 3, "effect": "warm", "transition": "fade", "motion": "zoom_out"},
+      {"duration": 3, "effect": "warm", "transition": "fade", "motion": "pan_right"},
+      {"duration": 3, "effect": "warm", "transition": "fade", "motion": "kenburns"}
+    ]
+  }
+]

@@ -1,0 +1,487 @@
+[
+  {
+    "id": "attitude_001",
+    "title": "Boss Mode",
+    "category": "Attitude",
+    "previewVideo": "assets/templates/previews/boss_mode.mp4",
+    "music": "assets/templates/music/attitude_trap.mp3",
+    "bpm": 140,
+    "slots": 6,
+    "durationPerImage": 1,
+    "texts": [
+      {
+        "text": "BOSS",
+        "start": 0,
+        "end": 2,
+        "animation": "beat_pop",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "MODE",
+        "start": 2,
+        "end": 4,
+        "animation": "beat_pop",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "👑",
+        "start": 4,
+        "end": 6,
+        "animation": "zoom_in",
+        "position": "bottom",
+        "style": "gold"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/fire.mp4",
+        "start": 0,
+        "end": 6,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/smoke.mp4",
+        "start": 3,
+        "end": 6,
+        "position": "bottom"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "bw",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 1,
+        "effect": "bw",
+        "transition": "fade",
+        "motion": "zoom_in"
+      }
+    ]
+  },
+  {
+    "id": "attitude_002",
+    "title": "Savage Vibes",
+    "category": "Attitude",
+    "previewVideo": "assets/templates/previews/savage_vibes.mp4",
+    "music": "assets/templates/music/attitude_hip_hop.mp3",
+    "bpm": 130,
+    "slots": 8,
+    "durationPerImage": 1,
+    "texts": [
+      {
+        "text": "SAVAGE",
+        "start": 0,
+        "end": 3,
+        "animation": "beat_pop",
+        "position": "top",
+        "style": "neon"
+      },
+      {
+        "text": "🔥",
+        "start": 4,
+        "end": 6,
+        "animation": "beat_pop",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "VIBES",
+        "start": 6,
+        "end": 8,
+        "animation": "beat_pop",
+        "position": "bottom",
+        "style": "bold_white"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/fire.mp4",
+        "start": 0,
+        "end": 8,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/lightning.mp4",
+        "start": 4,
+        "end": 8,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 1,
+        "effect": "bw",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 1,
+        "effect": "bw",
+        "transition": "fade",
+        "motion": "kenburns"
+      }
+    ]
+  },
+  {
+    "id": "attitude_003",
+    "title": "King Energy",
+    "category": "Attitude",
+    "previewVideo": "assets/templates/previews/king_energy.mp4",
+    "music": "assets/templates/music/attitude_phonk.mp3",
+    "bpm": 150,
+    "slots": 10,
+    "durationPerImage": 1,
+    "texts": [
+      {
+        "text": "KING",
+        "start": 0,
+        "end": 2,
+        "animation": "beat_pop",
+        "position": "center",
+        "style": "gold"
+      },
+      {
+        "text": "👑",
+        "start": 3,
+        "end": 5,
+        "animation": "zoom_in",
+        "position": "center",
+        "style": "gold"
+      },
+      {
+        "text": "ENERGY",
+        "start": 7,
+        "end": 10,
+        "animation": "beat_pop",
+        "position": "bottom",
+        "style": "neon"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/crown.mp4",
+        "start": 0,
+        "end": 10,
+        "position": "top"
+      },
+      {
+        "asset": "assets/templates/stickers/fire.mp4",
+        "start": 5,
+        "end": 10,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 1,
+        "effect": "bw",
+        "transition": "fade",
+        "motion": "kenburns"
+      }
+    ]
+  },
+  {
+    "id": "attitude_004",
+    "title": "No Limits",
+    "category": "Attitude",
+    "previewVideo": "assets/templates/previews/no_limits.mp4",
+    "music": "assets/templates/music/attitude_bass.mp3",
+    "bpm": 128,
+    "slots": 7,
+    "durationPerImage": 1,
+    "texts": [
+      {
+        "text": "NO",
+        "start": 0,
+        "end": 2,
+        "animation": "beat_pop",
+        "position": "top",
+        "style": "bold_white"
+      },
+      {
+        "text": "LIMITS",
+        "start": 2,
+        "end": 5,
+        "animation": "beat_pop",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "⚡",
+        "start": 5,
+        "end": 7,
+        "animation": "zoom_in",
+        "position": "bottom",
+        "style": "neon"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/lightning.mp4",
+        "start": 0,
+        "end": 7,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/smoke.mp4",
+        "start": 3,
+        "end": 7,
+        "position": "bottom"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 1,
+        "effect": "bw",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "slide_left",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "bw",
+        "transition": "fade",
+        "motion": "zoom_out"
+      }
+    ]
+  },
+  {
+    "id": "attitude_005",
+    "title": "Unstoppable",
+    "category": "Attitude",
+    "previewVideo": "assets/templates/previews/unstoppable.mp4",
+    "music": "assets/templates/music/attitude_drill.mp3",
+    "bpm": 145,
+    "slots": 5,
+    "durationPerImage": 1,
+    "texts": [
+      {
+        "text": "UN",
+        "start": 0,
+        "end": 1,
+        "animation": "beat_pop",
+        "position": "top",
+        "style": "neon"
+      },
+      {
+        "text": "STOP",
+        "start": 1,
+        "end": 2,
+        "animation": "beat_pop",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "PABLE",
+        "start": 2,
+        "end": 3,
+        "animation": "beat_pop",
+        "position": "bottom",
+        "style": "neon"
+      },
+      {
+        "text": "💪",
+        "start": 3,
+        "end": 5,
+        "animation": "zoom_in",
+        "position": "center",
+        "style": "gold"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/fire.mp4",
+        "start": 0,
+        "end": 5,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/lightning.mp4",
+        "start": 2,
+        "end": 5,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 1,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 1,
+        "effect": "bw",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 1,
+        "effect": "glitch",
+        "transition": "fade",
+        "motion": "kenburns"
+      }
+    ]
+  }
+]
+

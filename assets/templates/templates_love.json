@@ -1,0 +1,479 @@
+[
+  {
+    "id": "love_001",
+    "title": "Romantic Hearts",
+    "category": "Love",
+    "previewVideo": "assets/templates/previews/romantic_hearts.mp4",
+    "music": "assets/templates/music/love_romantic.mp3",
+    "bpm": 80,
+    "slots": 6,
+    "durationPerImage": 3,
+    "texts": [
+      {
+        "text": "Forever",
+        "start": 0,
+        "end": 6,
+        "animation": "fade",
+        "position": "top",
+        "style": "gold"
+      },
+      {
+        "text": "& Always",
+        "start": 6,
+        "end": 12,
+        "animation": "fade",
+        "position": "center",
+        "style": "gold"
+      },
+      {
+        "text": "❤️",
+        "start": 12,
+        "end": 18,
+        "animation": "beat_pop",
+        "position": "bottom",
+        "style": "neon"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/hearts.mp4",
+        "start": 0,
+        "end": 18,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/rose_petals.mp4",
+        "start": 9,
+        "end": 18,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "kenburns"
+      }
+    ]
+  },
+  {
+    "id": "love_002",
+    "title": "You & Me",
+    "category": "Love",
+    "previewVideo": "assets/templates/previews/you_me.mp4",
+    "music": "assets/templates/music/love_acoustic.mp3",
+    "bpm": 95,
+    "slots": 8,
+    "durationPerImage": 2,
+    "texts": [
+      {
+        "text": "You",
+        "start": 0,
+        "end": 4,
+        "animation": "zoom_in",
+        "position": "top",
+        "style": "bold_white"
+      },
+      {
+        "text": "&",
+        "start": 6,
+        "end": 10,
+        "animation": "beat_pop",
+        "position": "center",
+        "style": "neon"
+      },
+      {
+        "text": "Me",
+        "start": 12,
+        "end": 16,
+        "animation": "zoom_in",
+        "position": "bottom",
+        "style": "bold_white"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/hearts.mp4",
+        "start": 0,
+        "end": 16,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/sparkles.mp4",
+        "start": 8,
+        "end": 16,
+        "position": "bottom"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 2,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 2,
+        "effect": "cinematic",
+        "transition": "cut",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "slide_left",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 2,
+        "effect": "default",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "cut",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 2,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "zoom_out"
+      }
+    ]
+  },
+  {
+    "id": "love_003",
+    "title": "Love Story",
+    "category": "Love",
+    "previewVideo": "assets/templates/previews/love_story.mp4",
+    "music": "assets/templates/music/love_cinematic.mp3",
+    "bpm": 75,
+    "slots": 10,
+    "durationPerImage": 3,
+    "texts": [
+      {
+        "text": "Our",
+        "start": 0,
+        "end": 5,
+        "animation": "fade",
+        "position": "top",
+        "style": "gold"
+      },
+      {
+        "text": "Love Story",
+        "start": 5,
+        "end": 15,
+        "animation": "fade",
+        "position": "center",
+        "style": "gold"
+      },
+      {
+        "text": "💕",
+        "start": 20,
+        "end": 30,
+        "animation": "zoom_in",
+        "position": "bottom",
+        "style": "neon"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/hearts.mp4",
+        "start": 0,
+        "end": 30,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/romantic_frame.mp4",
+        "start": 15,
+        "end": 30,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "slide_up",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 3,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 3,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "kenburns"
+      }
+    ]
+  },
+  {
+    "id": "love_004",
+    "title": "My Everything",
+    "category": "Love",
+    "previewVideo": "assets/templates/previews/my_everything.mp4",
+    "music": "assets/templates/music/love_pop.mp3",
+    "bpm": 110,
+    "slots": 7,
+    "durationPerImage": 2,
+    "texts": [
+      {
+        "text": "You Are",
+        "start": 0,
+        "end": 4,
+        "animation": "beat_pop",
+        "position": "top",
+        "style": "neon"
+      },
+      {
+        "text": "My Everything",
+        "start": 4,
+        "end": 10,
+        "animation": "zoom_in",
+        "position": "center",
+        "style": "gold"
+      },
+      {
+        "text": "💖",
+        "start": 10,
+        "end": 14,
+        "animation": "beat_pop",
+        "position": "bottom",
+        "style": "neon"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/hearts.mp4",
+        "start": 0,
+        "end": 14,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/sparkles.mp4",
+        "start": 7,
+        "end": 14,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 2,
+        "effect": "default",
+        "transition": "cut",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 2,
+        "effect": "cinematic",
+        "transition": "cut",
+        "motion": "pan_right"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "slide_left",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 2,
+        "effect": "default",
+        "transition": "fade",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 2,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_out"
+      }
+    ]
+  },
+  {
+    "id": "love_005",
+    "title": "Endless Love",
+    "category": "Love",
+    "previewVideo": "assets/templates/previews/endless_love.mp4",
+    "music": "assets/templates/music/love_ballad.mp3",
+    "bpm": 70,
+    "slots": 5,
+    "durationPerImage": 4,
+    "texts": [
+      {
+        "text": "Endless",
+        "start": 0,
+        "end": 8,
+        "animation": "fade",
+        "position": "top",
+        "style": "gold"
+      },
+      {
+        "text": "Love",
+        "start": 8,
+        "end": 16,
+        "animation": "fade",
+        "position": "center",
+        "style": "gold"
+      },
+      {
+        "text": "∞",
+        "start": 16,
+        "end": 20,
+        "animation": "zoom_in",
+        "position": "bottom",
+        "style": "neon"
+      }
+    ],
+    "stickers": [
+      {
+        "asset": "assets/templates/stickers/hearts.mp4",
+        "start": 0,
+        "end": 20,
+        "position": "full"
+      },
+      {
+        "asset": "assets/templates/stickers/rose_petals.mp4",
+        "start": 10,
+        "end": 20,
+        "position": "full"
+      }
+    ],
+    "timeline": [
+      {
+        "duration": 4,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "kenburns"
+      },
+      {
+        "duration": 4,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "zoom_in"
+      },
+      {
+        "duration": 4,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "zoom_out"
+      },
+      {
+        "duration": 4,
+        "effect": "warm",
+        "transition": "fade",
+        "motion": "pan_left"
+      },
+      {
+        "duration": 4,
+        "effect": "cinematic",
+        "transition": "fade",
+        "motion": "kenburns"
+      }
+    ]
+  }
+]
+
