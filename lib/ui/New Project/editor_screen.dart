@@ -914,7 +914,7 @@ class _EditorScreenState extends State<EditorScreen>
               color: Colors.transparent,
               child: InkWell(
                 onTap: () async {
-                  debugPrint("✅ Add Image Overlay Tapped");
+                  debugPrint("✅ Add image button tapped");
 
                   await Future.delayed(
                     const Duration(milliseconds: 120),
