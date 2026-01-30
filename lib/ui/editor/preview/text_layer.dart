@@ -39,6 +39,9 @@ class TextLayer extends StatefulWidget {
 
   static const double minFontSize = 12;
   static const double maxFontSize = 120;
+  final double keyboardHeight;
+  final bool isKeyboardOpen;
+
 
   const TextLayer({
     super.key,
@@ -51,7 +54,11 @@ class TextLayer extends StatefulWidget {
     this.onTextRotationChanged,
     this.onTextClipRemove,
     this.onTextClipEdit,
+    required this.keyboardHeight,
+    required this.isKeyboardOpen,
   });
+
+
 
   @override
   State<TextLayer> createState() => _TextLayerState();
@@ -68,22 +75,28 @@ class _TextLayerState extends State<TextLayer> {
 
   @override
   Widget build(BuildContext context) {
+    // CapCut-style keyboard offset: text moves up to stay visible
+    // This compensates for the preview's transform so text remains in correct position
+    final double keyboardOffset =
+        widget.isKeyboardOpen ? widget.keyboardHeight * 0.15 : 0;
+
     return Stack(
       fit: StackFit.expand,
       children: [
         for (final clip in widget.textClips)
           if (clip.isVisibleAt(widget.currentPlayTime))
-            _buildTextClipWidget(clip),
+            _buildTextClipWidget(clip, keyboardOffset),
       ],
     );
   }
 
-  Widget _buildTextClipWidget(TextClip clip) {
+
+  Widget  _buildTextClipWidget(TextClip clip, double keyboardOffset) {
     final isSelected = widget.selectedTextClip?.id == clip.id;
 
-    return Positioned(
+     return Positioned(
       left: clip.position.dx - (isSelected ? 30 : 0),
-      top: clip.position.dy - (isSelected ? 30 : 0),
+      top: clip.position.dy - keyboardOffset - (isSelected ? 30 : 0),
       child: Transform.rotate(
         angle: clip.rotation,
         child: Padding(
@@ -130,13 +143,17 @@ class _TextLayerState extends State<TextLayer> {
                   ),
                   child: Text(
                     clip.text,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: clip.fontFamily,
+                      fontFamily: clip.fontFamily,          // ✅ font now applies
                       fontSize: clip.fontSize,
-                      fontWeight: FontWeight.bold,
-                      color: clip.color.withValues(alpha: clip.opacity),
+                      fontWeight: FontWeight.normal,        // ✅ DO NOT force bold
+                      color: clip.color.withOpacity(clip.opacity), // ✅ correct
+                      height: 1.2,                          // ✨ modern look
+                      letterSpacing: 0.3,                   // ✨ CapCut-style
                     ),
                   ),
+
                 ),
               ),
 

@@ -1,113 +1,184 @@
+import 'package:flutter/material.dart';
 import 'package:reelspark/ui/editor/editor.dart';
 
-/// Effects/Transitions panel widget
+/// Effects panel widget (CapCut-style)
 ///
-/// Contains:
-/// - Transition type selector (fade, slide, zoom)
+/// Features:
+/// - Grid-style effect cards
+/// - Tap to preview effect
+/// - ✔ Apply button in header (next to ✕)
 class EffectsPanel extends StatelessWidget {
-  /// Current transition type
-  final TransitionType transitionType;
-
-  /// Callback when transition type changes
-  final Function(TransitionType)? onTransitionChanged;
-
-  /// Callback when panel is closed
+  final Function(EffectType) onEffectPreview;
+  final VoidCallback? onApply;
   final VoidCallback? onClose;
+  final bool canApply;
 
   const EffectsPanel({
     super.key,
-    required this.transitionType,
-    this.onTransitionChanged,
+    required this.onEffectPreview,
+    this.onApply,
     this.onClose,
+    this.canApply = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      color: const Color(0xFF1A1A1A),
+      height: 240,
+      padding: const EdgeInsets.only(top: 10),
+      decoration: const BoxDecoration(
+        color: Color(0xFF1A1A1A),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
         children: [
-          // Header
-          Row(
-            children: [
-              const Text(
-                'Transitions',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
+          // ================= HEADER =================
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: Row(
+              children: [
+                const Text(
+                  'Effects',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-              const Spacer(),
-              if (onClose != null)
-                GestureDetector(
-                  onTap: onClose,
-                  child: const Icon(Icons.close, color: Colors.white54, size: 18),
-                ),
-            ],
-          ),
-          const SizedBox(height: 8),
+                const Spacer(),
 
-          // Transition Options
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              _buildTransitionOption(
-                icon: Icons.blur_on,
-                label: 'Fade',
-                type: TransitionType.fade,
+                // ================= ✔ APPLY =================
+                GestureDetector(
+                  onTap: canApply ? onApply : null,
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 150),
+                    opacity: canApply ? 1.0 : 0.35,
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: canApply ? Colors.white : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: canApply
+                              ? Colors.white
+                              : Colors.white24,
+                        ),
+                      ),
+                      child: Icon(
+                        Icons.check,
+                        size: 18,
+                        color:
+                        canApply ? Colors.black : Colors.white54,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(width: 10),
+
+                // ================= ✕ CLOSE =================
+                if (onClose != null)
+                  GestureDetector(
+                    onTap: onClose,
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.white24),
+                      ),
+                      child: const Icon(
+                        Icons.close,
+                        color: Colors.white70,
+                        size: 18,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 12),
+
+          // ================= EFFECT GRID =================
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              gridDelegate:
+              const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                childAspectRatio: 0.78,
               ),
-              const SizedBox(width: 10),
-              _buildTransitionOption(
-                icon: Icons.swap_horiz,
-                label: 'Slide',
-                type: TransitionType.slide,
-              ),
-              const SizedBox(width: 10),
-              _buildTransitionOption(
-                icon: Icons.zoom_in,
-                label: 'Zoom',
-                type: TransitionType.zoom,
-              ),
-            ],
+              itemCount: EffectType.values.length,
+              itemBuilder: (context, index) {
+                final type = EffectType.values[index];
+                return _EffectCard(
+                  label: type.name.toUpperCase(),
+                  icon: _iconForEffect(type),
+                  onTap: () => onEffectPreview(type),
+                );
+              },
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildTransitionOption({
-    required IconData icon,
-    required String label,
-    required TransitionType type,
-  }) {
-    final isSelected = transitionType == type;
+  static IconData _iconForEffect(EffectType type) {
+    switch (type) {
+      case EffectType.blur:
+        return Icons.blur_on;
+      case EffectType.glitch:
+        return Icons.broken_image;
+      case EffectType.lightLeak:
+        return Icons.wb_sunny;
+      default:
+        return Icons.auto_awesome;
+    }
+  }
+}
 
+/// ================= EFFECT CARD =================
+class _EffectCard extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _EffectCard({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTransitionChanged?.call(type),
+      onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.white12 : const Color(0xFF2A2A2A),
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(
-            color: isSelected ? Colors.white38 : Colors.transparent,
-            width: 1,
-          ),
+          color: const Color(0xFF2A2A2A),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.white24),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white70, size: 16),
-            const SizedBox(width: 4),
+            Icon(icon, color: Colors.white70, size: 26),
+            const SizedBox(height: 8),
             Text(
               label,
-              style: TextStyle(
-                color: isSelected ? Colors.white : Colors.white60,
-                fontSize: 11,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ],
@@ -116,5 +187,3 @@ class EffectsPanel extends StatelessWidget {
     );
   }
 }
-
-

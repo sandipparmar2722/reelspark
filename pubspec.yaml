@@ -115,6 +115,22 @@ flutter:
       fonts:
         - asset: assets/fonts/Roboto-Regular.ttf
           weight: 400
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat-Regular.ttf
+          weight: 400
+    - family: Lobster
+      fonts:
+        - asset: assets/fonts/Lobster-Regular.ttf
+          weight: 400
+    - family: Playfair
+      fonts:
+        - asset: assets/fonts/PlayfairDisplay-Regular.ttf
+          weight: 400
+    - family: Bebas
+      fonts:
+        - asset: assets/fonts/BebasNeue-Regular.ttf
+          weight: 400
 
 
 # App launcher icon

@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:ui'; // ✅ REQUIRED for blur
+import 'dart:ui'; // ✅ REQUIRED for ImageFilter
 import 'package:flutter/material.dart';
 import 'package:reelspark/ui/editor/editor.dart';
 import 'package:reelspark/models/effect_clip.dart';
@@ -15,8 +15,8 @@ class PreviewArea extends StatelessWidget {
   /// Images
   final List<File> images;
 
-
-
+  final double keyboardHeight;
+  final bool isKeyboardOpen;
 
   /// Current preview index
   final int currentPreviewIndex;
@@ -50,7 +50,6 @@ class PreviewArea extends StatelessWidget {
   final Function(TextClip)? onTextClipRemove;
   final Function(TextClip)? onTextClipEdit;
 
-
   const PreviewArea({
     super.key,
     required this.images,
@@ -70,11 +69,15 @@ class PreviewArea extends StatelessWidget {
     this.onTextRotationChanged,
     this.onTextClipRemove,
     this.onTextClipEdit,
+    required this.keyboardHeight,
+    required this.isKeyboardOpen,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 180),
+      curve: Curves.easeInOut,
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
@@ -86,15 +89,18 @@ class PreviewArea extends StatelessWidget {
             child: Stack(
               fit: StackFit.expand,
               children: [
-                // IMAGE + TRANSITION + EFFECT OVERLAY
+                /// IMAGE + TRANSITION + EFFECTS
                 _buildEffectOverlay(
                   _buildImageWithTransition(),
                 ),
-                // TEXT LAYER
+
+                /// TEXT LAYER
                 TextLayer(
                   textClips: textClips,
                   currentPlayTime: currentPlayTime,
                   selectedTextClip: selectedTextClip,
+                  keyboardHeight: keyboardHeight,
+                  isKeyboardOpen: isKeyboardOpen,
                   onTextClipSelect: onTextClipSelect,
                   onTextPositionChanged: onTextPositionChanged,
                   onTextFontSizeChanged: onTextFontSizeChanged,
@@ -120,7 +126,7 @@ class PreviewArea extends StatelessWidget {
     final index = currentPreviewIndex.clamp(0, images.length - 1);
 
     final imageWidget = ImageLayer(
-      key: ValueKey('image_$index'), // forces animation restart
+      key: ValueKey('image_$index'),
       image: images[index],
     );
 
@@ -134,7 +140,12 @@ class PreviewArea extends StatelessWidget {
       return imageWidget;
     }
 
-    final transition = transitions[transitionIndex]!;
+    final ClipTransition? transition = transitions[transitionIndex];
+
+// ✅ HARD CUT (CapCut "None")
+    if (transition == null || transition.type == ClipTransitionType.none) {
+      return imageWidget;
+    }
 
     switch (transition.type) {
       case ClipTransitionType.fade:
@@ -152,7 +163,10 @@ class PreviewArea extends StatelessWidget {
       case ClipTransitionType.slideRight:
         return SlideTransition(
           position: slideAnimation.drive(
-            Tween(begin: const Offset(-1, 0), end: Offset.zero),
+            Tween(
+              begin: const Offset(-1, 0),
+              end: Offset.zero,
+            ),
           ),
           child: imageWidget,
         );
@@ -163,13 +177,15 @@ class PreviewArea extends StatelessWidget {
           child: imageWidget,
         );
 
-      case ClipTransitionType.none:
+    // Safety fallback
+      default:
         return imageWidget;
     }
+
   }
 
   // ============================================================
-  // EFFECT OVERLAY (CAPCUT STYLE)
+  // EFFECT OVERLAY (CAPCUT STYLE – FIXED)
   // ============================================================
 
   Widget _buildEffectOverlay(Widget child) {
@@ -184,36 +200,49 @@ class PreviewArea extends StatelessWidget {
     for (final effect in activeEffects) {
       switch (effect.type) {
         case EffectType.blur:
-          result = BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-            child: result,
-          );
-          break;
-
-        case EffectType.lightLeak:
-          result = Container(
-            color: Colors.orange.withOpacity(0.18),
-            child: result,
-          );
-          break;
-
-        case EffectType.glitch:
-          result = Opacity(opacity: 0.9, child: result);
-          break;
-
-        case EffectType.filmGrain:
-          result = Container(
-            foregroundDecoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.05),
+          result = ImageFiltered(
+            imageFilter: ImageFilter.blur(
+              sigmaX: 6,
+              sigmaY: 6,
             ),
             child: result,
           );
           break;
 
-        case EffectType.none:
+        case EffectType.lightLeak:
+          result = Stack(
+            fit: StackFit.expand,
+            children: [
+              result,
+              Container(
+                color: Colors.orange.withOpacity(0.18),
+              ),
+            ],
+          );
+          break;
+
+        case EffectType.glitch:
+          result = Transform.translate(
+            offset: Offset(
+              (DateTime.now().millisecond % 8) - 4,
+              0,
+            ),
+            child: result,
+          );
+          break;
+
+        case EffectType.filmGrain:
+          result = Stack(
+            fit: StackFit.expand,
+            children: [
+              result,
+              Container(
+                color: Colors.black.withOpacity(0.05),
+              ),
+            ],
+          );
           break;
       }
-
     }
 
     return result;

@@ -1,36 +1,16 @@
+import 'package:flutter/material.dart';
 import 'package:reelspark/ui/editor/editor.dart';
 
-/// Text panel tabs
 enum TextPanelTab { style, font }
 
-/// Text input and styling panel widget
-///
-/// Contains:
-/// - Text input field
-/// - Style/Font tab selector
-/// - Color picker
-/// - Opacity slider
-/// - Font family selector
 class TextPanel extends StatefulWidget {
-  /// Text editing controller
   final TextEditingController textController;
-
-  /// Currently selected text clip
   final TextClip? selectedTextClip;
 
-  /// Callback when text changes
-  final Function(String)? onTextChanged;
-
-  /// Callback when color changes
-  final Function(Color)? onColorChanged;
-
-  /// Callback when opacity changes
-  final Function(double)? onOpacityChanged;
-
-  /// Callback when font family changes
-  final Function(String)? onFontFamilyChanged;
-
-  /// Callback when done button is pressed
+  final ValueChanged<String>? onTextChanged;
+  final ValueChanged<Color>? onColorChanged;
+  final ValueChanged<double>? onOpacityChanged;
+  final ValueChanged<String>? onFontFamilyChanged;
   final VoidCallback? onDone;
 
   const TextPanel({
@@ -51,7 +31,6 @@ class TextPanel extends StatefulWidget {
 class _TextPanelState extends State<TextPanel> {
   TextPanelTab _activeTab = TextPanelTab.style;
 
-  // CapCut-style color palette
   static const List<Color> _textColors = [
     Colors.white,
     Colors.black,
@@ -68,7 +47,7 @@ class _TextPanelState extends State<TextPanel> {
   ];
 
   static const List<String> _fontFamilies = [
-    'Poppins',
+    'Roboto',
     'Montserrat',
     'Lobster',
     'Playfair',
@@ -78,81 +57,21 @@ class _TextPanelState extends State<TextPanel> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      color: const Color(0xFF1A1A1A),
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 10),
+      decoration: const BoxDecoration(
+        color: Color(0xFF151515),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(14)),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header + Input Row
-          Row(
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: 36,
-                  child: TextField(
-                    controller: widget.textController,
-                    style: const TextStyle(color: Colors.white, fontSize: 13),
-                    decoration: InputDecoration(
-                      hintText: 'Enter text',
-                      hintStyle: const TextStyle(color: Colors.white38, fontSize: 13),
-                      filled: true,
-                      fillColor: const Color(0xFF2A2A2A),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(6),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                    onChanged: widget.onTextChanged,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              GestureDetector(
-                onTap: widget.onDone,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: const Text(
-                    'Done',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 6),
-
-          // Style | Font Tabs
-          Row(
-            children: [
-              _buildTab(
-                label: 'Style',
-                isActive: _activeTab == TextPanelTab.style,
-                onTap: () => setState(() => _activeTab = TextPanelTab.style),
-              ),
-              const SizedBox(width: 12),
-              _buildTab(
-                label: 'Font',
-                isActive: _activeTab == TextPanelTab.font,
-                onTap: () => setState(() => _activeTab = TextPanelTab.font),
-              ),
-              const Spacer(),
-            ],
-          ),
-
-          const SizedBox(height: 6),
-
-          // Panel Content
+          _buildHeader(),
+          const SizedBox(height: 10),
+          _buildTextField(),
+          const SizedBox(height: 10),
+          _buildTabs(),
+          const SizedBox(height: 8),
           if (_activeTab == TextPanelTab.style) _buildStylePanel(),
           if (_activeTab == TextPanelTab.font) _buildFontPanel(),
         ],
@@ -160,96 +79,133 @@ class _TextPanelState extends State<TextPanel> {
     );
   }
 
-  Widget _buildTab({
-    required String label,
-    required bool isActive,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: isActive ? Colors.white : Colors.transparent,
-              width: 1.5,
+  // ───────────────── HEADER ─────────────────
+
+  Widget _buildHeader() {
+    return Row(
+      children: [
+        const Expanded(
+          child: Text(
+            'Text',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isActive ? Colors.white : Colors.white54,
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
+        GestureDetector(
+          onTap: widget.onDone,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Text(
+              'Done',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
+        ),
+      ],
+    );
+  }
+
+  // ───────────────── TEXT FIELD ─────────────────
+
+  Widget _buildTextField() {
+    return TextField(
+      controller: widget.textController,
+      maxLines: 2,
+      style: const TextStyle(color: Colors.white, fontSize: 16),
+      decoration: InputDecoration(
+        hintText: 'Enter text',
+        hintStyle: const TextStyle(color: Colors.white38),
+        filled: true,
+        fillColor: const Color(0xFF1F1F1F),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
+      ),
+      onChanged: widget.onTextChanged,
+    );
+  }
+
+  // ───────────────── TABS ─────────────────
+
+  Widget _buildTabs() {
+    return Row(
+      children: [
+        _tab('Style', TextPanelTab.style),
+        const SizedBox(width: 18),
+        _tab('Font', TextPanelTab.font),
+      ],
+    );
+  }
+
+  Widget _tab(String label, TextPanelTab tab) {
+    final active = _activeTab == tab;
+    return GestureDetector(
+      onTap: () => setState(() => _activeTab = tab),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: active ? Colors.white : Colors.white54,
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
   }
 
+  // ───────────────── STYLE PANEL ─────────────────
+
   Widget _buildStylePanel() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Opacity Row
         Row(
           children: [
-            const Icon(Icons.opacity, color: Colors.white54, size: 14),
+            const Icon(Icons.opacity, size: 16, color: Colors.white54),
             const SizedBox(width: 6),
             Expanded(
-              child: SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                  trackHeight: 2,
-                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
-                  overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
-                ),
-                child: Slider(
-                  value: widget.selectedTextClip?.opacity ?? 1.0,
-                  min: 0.2,
-                  max: 1.0,
-                  onChanged: (v) => widget.onOpacityChanged?.call(v),
-                ),
+              child: Slider(
+                value: widget.selectedTextClip?.opacity ?? 1.0,
+                min: 0.2,
+                max: 1.0,
+                onChanged: widget.onOpacityChanged,
               ),
             ),
           ],
         ),
-
-        const SizedBox(height: 6),
-
-        // Color Styles
+        const SizedBox(height: 8),
         SizedBox(
-          height: 32,
+          height: 38,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: _textColors.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 6),
-            itemBuilder: (context, index) {
-              final color = _textColors[index];
-              final isSelected = widget.selectedTextClip?.color == color;
-
+            separatorBuilder: (_, __) => const SizedBox(width: 8),
+            itemBuilder: (_, i) {
+              final c = _textColors[i];
+              final selected = widget.selectedTextClip?.color == c;
               return GestureDetector(
-                onTap: () => widget.onColorChanged?.call(color),
+                onTap: () => widget.onColorChanged?.call(c),
                 child: Container(
-                  width: 32,
-                  height: 32,
-                  alignment: Alignment.center,
+                  width: 36,
+                  height: 36,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF2A2A2A),
-                    borderRadius: BorderRadius.circular(6),
+                    color: c,
+                    borderRadius: BorderRadius.circular(8),
                     border: Border.all(
-                      color: isSelected ? Colors.white : Colors.white24,
-                      width: isSelected ? 2 : 1,
-                    ),
-                  ),
-                  child: Text(
-                    'Aa',
-                    style: TextStyle(
-                      fontFamily: widget.selectedTextClip?.fontFamily ?? 'Poppins',
-                      color: color,
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
+                      color: selected ? Colors.white : Colors.transparent,
+                      width: 2,
                     ),
                   ),
                 ),
@@ -261,34 +217,35 @@ class _TextPanelState extends State<TextPanel> {
     );
   }
 
+  // ───────────────── FONT PANEL ─────────────────
+
   Widget _buildFontPanel() {
     return SizedBox(
-      height: 32,
+      height: 40,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _fontFamilies.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 6),
-        itemBuilder: (context, index) {
-          final font = _fontFamilies[index];
-          final isSelected = widget.selectedTextClip?.fontFamily == font;
-
+        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        itemBuilder: (_, i) {
+          final font = _fontFamilies[i];
+          final selected = widget.selectedTextClip?.fontFamily == font;
           return GestureDetector(
             onTap: () => widget.onFontFamilyChanged?.call(font),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 14),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: isSelected ? Colors.white12 : const Color(0xFF2A2A2A),
-                borderRadius: BorderRadius.circular(6),
+                color: selected ? Colors.white12 : const Color(0xFF1F1F1F),
+                borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: isSelected ? Colors.white : Colors.white24,
+                  color: selected ? Colors.white : Colors.white24,
                 ),
               ),
               child: Text(
                 'Aa',
                 style: TextStyle(
                   fontFamily: font,
-                  fontSize: 14,
+                  fontSize: 16,
                   color: Colors.white,
                 ),
               ),
@@ -299,4 +256,3 @@ class _TextPanelState extends State<TextPanel> {
     );
   }
 }
-

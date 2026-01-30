@@ -1,5 +1,7 @@
 import 'package:reelspark/ui/editor/editor.dart';
 
+const double _minTextDuration = 0.8;
+
 /// Text timeline track widget
 ///
 /// Displays text clips with:
@@ -44,7 +46,9 @@ class _TextTimelineState extends State<TextTimeline> {
         clipBehavior: Clip.none,
         children: widget.textClips.map((clip) {
           final left = clip.startTime * TimelineContainer.pixelsPerSecond;
-          final width = (clip.duration * TimelineContainer.pixelsPerSecond)
+          // Ensure width respects minimum duration to prevent overflow
+          final effectiveDuration = clip.duration.clamp(_minTextDuration, double.infinity);
+          final width = (effectiveDuration * TimelineContainer.pixelsPerSecond)
               .clamp(24.0, double.infinity);
           final isSelected = widget.selectedTextClip?.id == clip.id;
 
@@ -143,16 +147,26 @@ class _TextClipWidgetState extends State<_TextClipWidget> {
   bool _isDragging = false;
   double _originalStartTime = 0;
   double _originalEndTime = 0;
+  bool _isAtMinDurationLeft = false;
+  bool _isAtMinDurationRight = false;
 
   @override
   Widget build(BuildContext context) {
+    final isAtLimit = _isAtMinDurationLeft || _isAtMinDurationRight;
+
     return Container(
+      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        color: Colors.purple.shade600,
+        color: isAtLimit
+            ? Colors.red.withValues(alpha: 0.85)
+            : Colors.purple.shade600,
         borderRadius: BorderRadius.circular(6),
         border: widget.isSelected
-            ? Border.all(color: Colors.white, width: 2)
-            : null,
+            ? Border.all(
+                color: isAtLimit ? Colors.red : Colors.white,
+                width: isAtLimit ? 2.5 : 2
+              )
+            : (isAtLimit ? Border.all(color: Colors.red.withValues(alpha: 0.8), width: 2) : null),
         boxShadow: widget.isDragging || _isDragging
             ? [
                 BoxShadow(
@@ -168,18 +182,35 @@ class _TextClipWidgetState extends State<_TextClipWidget> {
           // LEFT TRIM HANDLE
           _TextTrimHandle(
             pixelsPerSecond: widget.pixelsPerSecond,
+            isAtLimit: _isAtMinDurationLeft,
             onDragStart: () {
               _originalStartTime = widget.clip.startTime;
               _originalEndTime = widget.clip.endTime;
             },
             onDrag: (deltaSeconds) {
-              double newStart = _originalStartTime + deltaSeconds;
-              newStart = newStart.clamp(0.0, _originalEndTime - 0.1);
+              final currentDuration = widget.clip.duration;
+              final requestedStart = _originalStartTime + deltaSeconds;
+              final requestedDuration = _originalEndTime - requestedStart;
+
+              double newStart = requestedStart.clamp(0.0, _originalEndTime - _minTextDuration);
+
+              // Check if trying to go below minimum duration
+              final atMinDuration = (currentDuration <= _minTextDuration && deltaSeconds > 0) ||
+                                    (requestedDuration < _minTextDuration && deltaSeconds > 0);
+              if (_isAtMinDurationLeft != atMinDuration) {
+                setState(() {
+                  _isAtMinDurationLeft = atMinDuration;
+                });
+              }
+
               widget.onTrimStart(newStart, _originalEndTime);
             },
             onDragEnd: () {
-              _originalStartTime = 0;
-              _originalEndTime = 0;
+              setState(() {
+                _originalStartTime = 0;
+                _originalEndTime = 0;
+                _isAtMinDurationLeft = false;
+              });
             },
           ),
 
@@ -209,15 +240,29 @@ class _TextClipWidgetState extends State<_TextClipWidget> {
               child: Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Text(
-                  widget.clip.text,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      widget.clip.text,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    if (_isAtMinDurationLeft || _isAtMinDurationRight)
+                      Text(
+                        'MIN: ${_minTextDuration}s',
+                        style: const TextStyle(
+                          fontSize: 7,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
@@ -226,18 +271,35 @@ class _TextClipWidgetState extends State<_TextClipWidget> {
           // RIGHT TRIM HANDLE
           _TextTrimHandle(
             pixelsPerSecond: widget.pixelsPerSecond,
+            isAtLimit: _isAtMinDurationRight,
             onDragStart: () {
               _originalStartTime = widget.clip.startTime;
               _originalEndTime = widget.clip.endTime;
             },
             onDrag: (deltaSeconds) {
-              double newEnd = _originalEndTime + deltaSeconds;
-              newEnd = newEnd.clamp(_originalStartTime + 0.1, double.infinity);
+              final currentDuration = widget.clip.duration;
+              final requestedEnd = _originalEndTime + deltaSeconds;
+              final requestedDuration = requestedEnd - _originalStartTime;
+
+              double newEnd = requestedEnd.clamp(_originalStartTime + _minTextDuration, double.infinity);
+
+              // Check if trying to go below minimum duration
+              final atMinDuration = (currentDuration <= _minTextDuration && deltaSeconds < 0) ||
+                                    (requestedDuration < _minTextDuration && deltaSeconds < 0);
+              if (_isAtMinDurationRight != atMinDuration) {
+                setState(() {
+                  _isAtMinDurationRight = atMinDuration;
+                });
+              }
+
               widget.onTrimEnd(_originalStartTime, newEnd);
             },
             onDragEnd: () {
-              _originalStartTime = 0;
-              _originalEndTime = 0;
+              setState(() {
+                _originalStartTime = 0;
+                _originalEndTime = 0;
+                _isAtMinDurationRight = false;
+              });
             },
           ),
         ],
@@ -252,12 +314,14 @@ class _TextTrimHandle extends StatefulWidget {
   final Function(double deltaSeconds) onDrag;
   final VoidCallback onDragEnd;
   final double pixelsPerSecond;
+  final bool isAtLimit;
 
   const _TextTrimHandle({
     required this.onDragStart,
     required this.onDrag,
     required this.onDragEnd,
     required this.pixelsPerSecond,
+    this.isAtLimit = false,
   });
 
   @override
@@ -297,17 +361,25 @@ class _TextTrimHandleState extends State<_TextTrimHandle> {
         width: 12,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: _isDragging ? Colors.white24 : Colors.black26,
+          color: widget.isAtLimit
+              ? Colors.red.withValues(alpha: 0.8)
+              : (_isDragging ? Colors.white24 : Colors.black26),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Container(
-          width: 4,
-          height: 18,
-          decoration: BoxDecoration(
-            color: Colors.white70,
-            borderRadius: BorderRadius.circular(2),
-          ),
-        ),
+        child: widget.isAtLimit
+            ? const Icon(
+                Icons.lock,
+                size: 10,
+                color: Colors.white,
+              )
+            : Container(
+                width: 4,
+                height: 18,
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
       ),
     );
   }

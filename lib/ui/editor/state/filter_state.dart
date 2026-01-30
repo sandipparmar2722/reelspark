@@ -1,7 +1,7 @@
 import 'package:reelspark/ui/editor/editor.dart';
 
 /// Available transition effects between slides.
-enum TransitionType { fade, slide, zoom }
+enum TransitionType { fade, slide, zoom, none }
 
 /// Lightweight state class for filter/transition management
 /// Holds current transition type and filter settings

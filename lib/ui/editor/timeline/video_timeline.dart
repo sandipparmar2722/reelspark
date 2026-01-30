@@ -51,42 +51,21 @@ class _VideoTimelineState extends State<VideoTimeline> {
   int _draggingEdge = 0;
   int _resizingIndex = -1;
   double _resizeAccumulatedDx = 0;
+  bool _isAtMinDuration = false;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: TimelineContainer.clipHeight,
-      child: Row(
-        children: List.generate(widget.images.length * 2 - 1, (i) {
-          if (i.isEven) {
-            return _buildClipWidget(i ~/ 2);
-          } else {
-            return _buildTransitionButton(context, (i - 1) ~/ 2);
-          }
-        }),
-      )
-
-    );
-  }
-
-  Widget _buildTransitionButton(BuildContext context, int index) {
-    final hasTransition = widget.transitions[index] != null;
-
-    return GestureDetector(
-      onTap: () => widget.onAddTransition(index),
-      child: Container(
-        width: 24,
-        height: 24,
-        margin: const EdgeInsets.symmetric(horizontal: 6),
-        decoration: BoxDecoration(
-          color: hasTransition ? Colors.orangeAccent : const Color(0xFF1E1E1E),
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: Colors.white30),
-        ),
-        child: Icon(
-          hasTransition ? Icons.auto_awesome : Icons.add,
-          size: 14,
-          color: Colors.white,
+      child: OverflowBox(
+        alignment: Alignment.centerLeft,
+        maxWidth: double.infinity,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(
+            widget.images.length,
+                (i) => _buildClipWidget(i),
+          ),
         ),
       ),
     );
@@ -142,6 +121,7 @@ class _VideoTimelineState extends State<VideoTimeline> {
                       setState(() {
                         _resizingIndex = -1;
                         _draggingEdge = 0;
+                        _isAtMinDuration = false;
                       });
                     },
                     child: _buildResizeHandle(true, index),
@@ -173,6 +153,7 @@ class _VideoTimelineState extends State<VideoTimeline> {
                       setState(() {
                         _resizingIndex = -1;
                         _draggingEdge = 0;
+                        _isAtMinDuration = false;
                       });
                     },
                     child: _buildResizeHandle(false, index),
@@ -187,46 +168,54 @@ class _VideoTimelineState extends State<VideoTimeline> {
 
   Widget _buildClipContent(int index) {
     final duration = widget.durations[index];
-    final width = duration * TimelineContainer.pixelsPerSecond;
+    final width =
+    (duration * TimelineContainer.pixelsPerSecond).floorToDouble();
+
     final selected = widget.selectedIndex == index;
 
     return GestureDetector(
       onTap: () => widget.onSelect(index),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        width: width,
+        width: (width).floorToDouble(), // ✅ prevent fractional pixel overflow
         height: TimelineContainer.clipHeight,
-        margin: const EdgeInsets.symmetric(horizontal: 1),
+        margin: EdgeInsets.zero,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
-          border: Border.all(
-            color: selected ? Colors.white : Colors.transparent,
-          ),
         ),
-        child: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: Image.file(
-                widget.images[index],
-                fit: BoxFit.cover,
-                width: width,
-                height: TimelineContainer.clipHeight,
-              ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            border: Border.all(
+              color: selected ? Colors.white : Colors.transparent,
+              width: 1, // visual only, no layout impact
             ),
-            Positioned(
-              bottom: 4,
-              right: 4,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-                color: Colors.black54,
-                child: Text(
-                  '${duration.toStringAsFixed(1)}s',
-                  style: const TextStyle(color: Colors.white, fontSize: 9),
+          ),
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: Image.file(
+                  widget.images[index],
+                  fit: BoxFit.cover,
+                  width: (width).floorToDouble(),
+                  height: TimelineContainer.clipHeight,
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                bottom: 4,
+                right: 4,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                  color: Colors.black54,
+                  child: Text(
+                    '${duration.toStringAsFixed(1)}s',
+                    style: const TextStyle(color: Colors.white, fontSize: 9),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -246,16 +235,25 @@ class _VideoTimelineState extends State<VideoTimeline> {
     final active = _resizingIndex == index &&
         ((left && _draggingEdge == -1) || (!left && _draggingEdge == 1));
 
+    // Show red when at minimum duration and trying to decrease
+    final isAtLimit = _isAtMinDuration && active;
+
     return Container(
       width: TimelineContainer.handleWidth,
       decoration: BoxDecoration(
-        color: active ? Colors.blue : Colors.white,
+        color: isAtLimit ? Colors.red : (active ? Colors.blue : Colors.white),
         borderRadius: BorderRadius.horizontal(
           left: left ? const Radius.circular(4) : Radius.zero,
           right: left ? Radius.zero : const Radius.circular(4),
         ),
       ),
-      child: const Center(child: SizedBox(width: 3, height: 20)),
+      child: Center(
+        child: Icon(
+          isAtLimit ? Icons.lock : Icons.drag_handle,
+          size: 12,
+          color: Colors.black54,
+        ),
+      ),
     );
   }
 
@@ -268,13 +266,27 @@ class _VideoTimelineState extends State<VideoTimeline> {
     _resizeAccumulatedDx = 0;
 
     final current = widget.durations[index];
-    final next = (current + deltaSeconds).clamp(
-      VideoTimeline.minDuration,
-      VideoTimeline.maxDuration,
-    );
+    final requested = current + deltaSeconds;
 
-    if (next != current) {
-      widget.onDurationChange(next);
+    // Check if we're trying to go below minimum duration for visual feedback
+    final atMinDuration = (current <= VideoTimeline.minDuration && deltaSeconds < 0) ||
+                          (requested < VideoTimeline.minDuration && deltaSeconds < 0);
+    if (_isAtMinDuration != atMinDuration) {
+      setState(() {
+        _isAtMinDuration = atMinDuration;
+      });
+    }
+
+    // Only apply change if not trying to go below minimum
+    if (requested >= VideoTimeline.minDuration || deltaSeconds > 0) {
+      final next = requested.clamp(
+        VideoTimeline.minDuration,
+        VideoTimeline.maxDuration,
+      );
+
+      if (next != current) {
+        widget.onDurationChange(next);
+      }
     }
   }
 

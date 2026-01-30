@@ -79,8 +79,20 @@ class AudioClip {
     );
   }
 
+  /// Create a deep copy of this audio clip
+  AudioClip copy() {
+    return AudioClip(
+      path: path,
+      fileName: fileName,
+      originalDuration: originalDuration,
+      startTime: startTime,
+      trimStart: trimStart,
+      trimEnd: trimEnd,
+    );
+  }
+
   /// Minimum allowed duration (in seconds)
-  static const double minDuration = 0.5;
+  static const double minDuration = 2.0;
 
   /// Clamp trim values to valid range
   void clampTrimValues() {

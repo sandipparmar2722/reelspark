@@ -17,6 +17,8 @@ class TransitionPicker extends StatelessWidget {
       ),
       child: Row(
         children: [
+
+          _item('none', ClipTransitionType.none),
           _item('Fade', ClipTransitionType.fade),
           _item('Slide', ClipTransitionType.slideLeft),
           _item('Zoom', ClipTransitionType.zoom),

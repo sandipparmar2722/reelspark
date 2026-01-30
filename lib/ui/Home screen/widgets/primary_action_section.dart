@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/utils/colors.dart';
 import '../../../core/utils/styles.dart';
-import '../../New Project/select_images.dart';
+import '../../editor/image_picker/image_picker_screen.dart';
 class PrimaryActionSection extends StatelessWidget {
   const PrimaryActionSection({super.key});
 
@@ -16,7 +16,7 @@ class PrimaryActionSection extends StatelessWidget {
           onTap: () {
             // Handle New Project action
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return SelectImage();
+              return ImagePickerScreen();
             },));
           },
         ),

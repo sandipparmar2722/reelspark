@@ -40,17 +40,22 @@ class FeatureGrid extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Icon(items[i], size: 28, color: AppColors.textPrimary),
               const SizedBox(height: 12),
-              Text(
-                labels[i],
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  color: AppColors.textPrimary,
+              Flexible(
+                child: Text(
+                  labels[i],
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                    color: AppColors.textPrimary,
+                  ),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                 ),
-                textAlign: TextAlign.center,
               ),
             ],
           ),

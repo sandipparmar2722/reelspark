@@ -33,6 +33,7 @@ class _AudioTimelineState extends State<AudioTimeline> {
   int _audioTrimEdge = 0; // -1 = left, 1 = right, 0 = none
   double _audioTrimAccumulatedDx = 0;
   bool _isAudioSelected = false;
+  bool _isAtMinDuration = false;
 
   Timer? _autoScrollTimer;
   double _currentTrimDragX = 0;
@@ -94,19 +95,44 @@ class _AudioTimelineState extends State<AudioTimeline> {
     _audioTrimAccumulatedDx = 0;
 
     final audioClip = widget.audioClip;
+    final currentDuration = audioClip.duration;
     AudioClip updatedClip;
 
     if (isLeftHandle) {
-      final newTrimStart = (audioClip.trimStart + deltaSeconds).clamp(
+      final requestedTrimStart = audioClip.trimStart + deltaSeconds;
+      final newTrimStart = requestedTrimStart.clamp(
         0.0,
         audioClip.trimEnd - AudioClip.minDuration,
       );
+
+      // Check if we're trying to go below minimum duration
+      final requestedDuration = audioClip.trimEnd - requestedTrimStart;
+      final atMinDuration = (currentDuration <= AudioClip.minDuration && deltaSeconds > 0) ||
+                            (requestedDuration < AudioClip.minDuration && deltaSeconds > 0);
+      if (_isAtMinDuration != atMinDuration) {
+        setState(() {
+          _isAtMinDuration = atMinDuration;
+        });
+      }
+
       updatedClip = audioClip.copyWith(trimStart: newTrimStart);
     } else {
-      final newTrimEnd = (audioClip.trimEnd + deltaSeconds).clamp(
+      final requestedTrimEnd = audioClip.trimEnd + deltaSeconds;
+      final newTrimEnd = requestedTrimEnd.clamp(
         audioClip.trimStart + AudioClip.minDuration,
         audioClip.originalDuration,
       );
+
+      // Check if we're trying to go below minimum duration
+      final requestedDuration = requestedTrimEnd - audioClip.trimStart;
+      final atMinDuration = (currentDuration <= AudioClip.minDuration && deltaSeconds < 0) ||
+                            (requestedDuration < AudioClip.minDuration && deltaSeconds < 0);
+      if (_isAtMinDuration != atMinDuration) {
+        setState(() {
+          _isAtMinDuration = atMinDuration;
+        });
+      }
+
       updatedClip = audioClip.copyWith(trimEnd: newTrimEnd);
     }
 
@@ -131,13 +157,17 @@ class _AudioTimelineState extends State<AudioTimeline> {
         width: audioWidth > 0 ? audioWidth : 100,
         margin: EdgeInsets.only(left: widget.audioClip.startTime * TimelineContainer.pixelsPerSecond),
         decoration: BoxDecoration(
-          color: Colors.green.withValues(alpha: isSelected ? 0.4 : 0.25),
+          color: _isAtMinDuration
+              ? Colors.red.withValues(alpha: 0.7)
+              : Colors.green.withValues(alpha: isSelected ? 0.4 : 0.25),
           borderRadius: BorderRadius.circular(6),
           border: Border.all(
-            color: isSelected
-                ? Colors.greenAccent
-                : Colors.greenAccent.withValues(alpha: 0.6),
-            width: isSelected ? 2.0 : 1.5,
+            color: _isAtMinDuration
+                ? Colors.red
+                : (isSelected
+                    ? Colors.greenAccent
+                    : Colors.greenAccent.withValues(alpha: 0.6)),
+            width: _isAtMinDuration ? 2.5 : (isSelected ? 2.0 : 1.5),
           ),
         ),
         child: Stack(
@@ -152,42 +182,59 @@ class _AudioTimelineState extends State<AudioTimeline> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Row(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(
-                            Icons.music_note,
-                            color: Colors.white70,
-                            size: 16,
-                          ),
-                          const SizedBox(width: 6),
-                          Flexible(
-                            child: Text(
-                              widget.audioClip.fileName,
-                              style: const TextStyle(
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.music_note,
                                 color: Colors.white70,
-                                fontSize: 11,
+                                size: 16,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                              const SizedBox(width: 6),
+                              Flexible(
+                                child: Text(
+                                  widget.audioClip.fileName,
+                                  style: const TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 11,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const Spacer(),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 4,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.black38,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                child: Text(
+                                  '${widget.audioClip.duration.toStringAsFixed(1)}s',
+                                  style: const TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 9,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          const Spacer(),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 4,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.black38,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              '${widget.audioClip.duration.toStringAsFixed(1)}s',
-                              style: const TextStyle(
-                                color: Colors.white70,
-                                fontSize: 9,
+                          if (_isAtMinDuration)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 2),
+                              child: Text(
+                                'MIN: ${AudioClip.minDuration.toStringAsFixed(1)}s',
+                                style: const TextStyle(
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -233,6 +280,7 @@ class _AudioTimelineState extends State<AudioTimeline> {
                     setState(() {
                       _audioTrimEdge = 0;
                       _isAudioTrimming = false;
+                      _isAtMinDuration = false;
                     });
 
                     _stopContinuousAutoScroll();
@@ -278,6 +326,7 @@ class _AudioTimelineState extends State<AudioTimeline> {
                     setState(() {
                       _audioTrimEdge = 0;
                       _isAudioTrimming = false;
+                      _isAtMinDuration = false;
                     });
                     _stopContinuousAutoScroll();
                   },
@@ -294,24 +343,33 @@ class _AudioTimelineState extends State<AudioTimeline> {
   }
 
   Widget _buildAudioTrimHandle({required bool isLeft, required bool isActive}) {
+    // Show red when at minimum duration and trying to decrease
+    final isAtLimit = _isAtMinDuration && isActive;
+
     return Container(
       width: TimelineContainer.handleWidth,
       decoration: BoxDecoration(
-        color: isActive ? Colors.greenAccent : Colors.green,
+        color: isAtLimit ? Colors.red : (isActive ? Colors.greenAccent : Colors.green),
         borderRadius: BorderRadius.horizontal(
           left: isLeft ? const Radius.circular(6) : Radius.zero,
           right: isLeft ? Radius.zero : const Radius.circular(6),
         ),
       ),
       child: Center(
-        child: Container(
-          width: 3,
-          height: 20,
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.8),
-            borderRadius: BorderRadius.circular(2),
-          ),
-        ),
+        child: isAtLimit
+            ? Icon(
+                Icons.lock,
+                size: 12,
+                color: Colors.white,
+              )
+            : Container(
+                width: 3,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.8),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
       ),
     );
   }
