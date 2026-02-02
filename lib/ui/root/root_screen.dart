@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../blocs/navigation/nav_bloc.dart';
 import '../../blocs/navigation/nav_contract.dart';
-
 import '../Home screen/Home_screen.dart';
 import '../subscription.dart';
 import '../bottom_nav/modern_bottom_nav.dart';

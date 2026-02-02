@@ -31,6 +31,16 @@ class TextPanel extends StatefulWidget {
 class _TextPanelState extends State<TextPanel> {
   TextPanelTab _activeTab = TextPanelTab.style;
 
+  @override
+  void didUpdateWidget(TextPanel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Force rebuild when font or color changes
+    if (oldWidget.selectedTextClip?.fontFamily != widget.selectedTextClip?.fontFamily ||
+        oldWidget.selectedTextClip?.color != widget.selectedTextClip?.color) {
+      setState(() {});
+    }
+  }
+
   static const List<Color> _textColors = [
     Colors.white,
     Colors.black,
@@ -119,10 +129,17 @@ class _TextPanelState extends State<TextPanel> {
   // ───────────────── TEXT FIELD ─────────────────
 
   Widget _buildTextField() {
+    // Always use white text for readability in input field
+    // Font family is applied to show the style
     return TextField(
+      key: ValueKey(widget.selectedTextClip?.fontFamily ?? 'Roboto'),
       controller: widget.textController,
       maxLines: 2,
-      style: const TextStyle(color: Colors.white, fontSize: 16),
+      style: TextStyle(
+        color: Colors.white, // Always white for readability
+        fontSize: 16,
+        fontFamily: widget.selectedTextClip?.fontFamily ?? 'Roboto',
+      ),
       decoration: InputDecoration(
         hintText: 'Enter text',
         hintStyle: const TextStyle(color: Colors.white38),
@@ -221,32 +238,37 @@ class _TextPanelState extends State<TextPanel> {
 
   Widget _buildFontPanel() {
     return SizedBox(
-      height: 40,
+      height: 50,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _fontFamilies.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (_, __) => const SizedBox(width: 10),
         itemBuilder: (_, i) {
           final font = _fontFamilies[i];
           final selected = widget.selectedTextClip?.fontFamily == font;
           return GestureDetector(
-            onTap: () => widget.onFontFamilyChanged?.call(font),
+            onTap: () {
+              widget.onFontFamilyChanged?.call(font);
+              // Don't switch tabs - stay on Font tab
+            },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: selected ? Colors.white12 : const Color(0xFF1F1F1F),
-                borderRadius: BorderRadius.circular(8),
+                color: selected ? Colors.white : const Color(0xFF1F1F1F),
+                borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: selected ? Colors.white : Colors.white24,
+                  width: selected ? 2 : 1,
                 ),
               ),
               child: Text(
-                'Aa',
+                font,
                 style: TextStyle(
                   fontFamily: font,
-                  fontSize: 16,
-                  color: Colors.white,
+                  fontSize: 15,
+                  color: selected ? Colors.black : Colors.white,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
                 ),
               ),
             ),

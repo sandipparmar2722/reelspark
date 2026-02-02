@@ -24,7 +24,7 @@ class EffectsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 240,
+      height: 220,
       padding: const EdgeInsets.only(top: 10),
       decoration: const BoxDecoration(
         color: Color(0xFF1A1A1A),

@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:reelspark/ui/editor/editor.dart';
-import 'package:reelspark/ui/editor/transition/transition_picker.dart';
+import 'package:reelspark/ui/editor/panels/sticker_panel.dart';
+import 'package:reelspark/ui/editor/panels/transition_picker.dart';
 
 import '../../models/effect_clip.dart';
+import '../../models/sticker_clip.dart';
 
 
 
@@ -45,9 +47,26 @@ class _EditorScreenState extends State<EditorScreen>
   List<EffectClip> _effectClips = [];
   EffectClip? _selectedEffectClip;
   EffectClip? _previewEffectClip; // 👁 temporary preview
-  static const double _effectPreviewPlayDuration = 2.0; // seconds
   Timer? _effectPreviewTimer;
   double? _effectPreviewAnchorTime;
+
+
+
+  /// --- Sticker Clips ---
+  List<StickerClip> _stickerClips = [];
+  StickerClip? _selectedStickerClip;
+  StickerClip? _previewStickerClip;
+
+
+
+
+  // // --- Transition Preview ---
+
+  ClipTransition? _previewTransition;
+  int? _previewTransitionIndex;
+  ClipTransitionType? _selectedPreviewTransitionType;
+  bool _showTransitionPicker = false;
+
 
 
 
@@ -89,6 +108,7 @@ class _EditorScreenState extends State<EditorScreen>
   final TextEditingController textController = TextEditingController();
   List<TextClip> _textClips = [];
   TextClip? _selectedTextClip;
+  Size? _previewSize;
 
   // --- Music ---
   final AudioPlayer audioPlayer = AudioPlayer();
@@ -159,14 +179,94 @@ class _EditorScreenState extends State<EditorScreen>
   // Calculate total video duration from image durations
   // Used for syncing audio and timeline
 
+  /// Snap time to playhead if within threshold
+  double _snapTime(double t) {
+    const threshold = 0.08; // 80ms
+    if ((t - _currentPlayTime).abs() < threshold) {
+      return _currentPlayTime;
+    }
+    return t;
+  }
+
   double _calculateVideoDuration() {
     return durations.fold(0.0, (sum, d) => sum + d);
   }
 
 
+  double _getTransitionStartTime(int index) {
+    double t = 0.0;
+    for (int i = 0; i <= index; i++) {
+      t += durations[i];
+    }
+    return t;
+  }
 
   // Save current state for undo functionality
   // Call this method before any state-changing action
+
+  void _previewTransitionEffect(int index, ClipTransitionType type) {
+    final transitionStart = _getTransitionStartTime(index);
+
+    _stopPreview(); // ⛔ stop current playback
+
+    setState(() {
+      _selectedPreviewTransitionType = type;
+      _previewTransitionIndex = index;
+
+      _previewTransition = ClipTransition(
+        type: type,
+        duration: 0.4,
+      );
+
+      // TEMP PREVIEW ONLY
+      transitions[index] = _previewTransition;
+
+      // 🔥 CRITICAL: jump playhead to transition start
+      _currentPlayTime = transitionStart;
+    });
+
+    // Only animate and play if not "None"
+    if (type != ClipTransitionType.none) {
+      // 🔥 restart animation
+      _animationController.reset();
+      _animationController.forward();
+
+      // ▶️ play preview
+      _startAutoPreview();
+    }
+  }
+
+
+  void _applyPreviewTransition() {
+    if (_previewTransition == null || _previewTransitionIndex == null) return;
+
+    _saveDiscreteUndoState();
+
+    setState(() {
+      transitions[_previewTransitionIndex!] = _previewTransition;
+      _previewTransition = null;
+      _previewTransitionIndex = null;
+      _selectedPreviewTransitionType = null;
+      _showTransitionPicker = false;
+    });
+  }
+
+  void _cancelPreviewTransition() {
+    _stopPreview();
+
+    if (_previewTransitionIndex != null) {
+      setState(() {
+        transitions[_previewTransitionIndex!] = null;
+        _previewTransition = null;
+        _previewTransitionIndex = null;
+        _selectedPreviewTransitionType = null;
+        _showTransitionPicker = false;
+      });
+    }
+
+    _animationController.reset();
+  }
+
 
 
 
@@ -197,6 +297,7 @@ class _EditorScreenState extends State<EditorScreen>
       audioClip: _audioClip?.copy(),
       selectedIndex: selectedIndex,
       currentPlayTime: _currentPlayTime,
+      stickerClips: _stickerClips.map((e) => e.copy()).toList(),
     );
   }
 
@@ -218,10 +319,12 @@ class _EditorScreenState extends State<EditorScreen>
       _audioClip = snapshot.audioClip?.copy();
       selectedIndex = snapshot.selectedIndex;
       _currentPlayTime = snapshot.currentPlayTime;
+      _stickerClips = snapshot.stickerClips.map((e) => e.copy()).toList();
 
       // clear selections (CapCut behavior)
       _selectedTextClip = null;
       _selectedEffectClip = null;
+      _selectedStickerClip = null; // ✅ ADD
     });
   }
 
@@ -676,53 +779,20 @@ class _EditorScreenState extends State<EditorScreen>
       _showEffectsPanel = true;
       _showTextInput = false;
       _selectedTextClip = null;
+      _showTransitionPicker =false;
+    });
+  }
+  void _onStrikertab() {
+    setState(() {
+      _activeTool = EditorTool.stikers;
+      _showEffectsPanel = false;
+      _showTextInput = false;
+      _showTransitionPicker = false;
     });
   }
 
 
-  // void _addEffect(EffectType type) {
-  //   _saveDiscreteUndoState(); // ✅ Undo support
-  //
-  //   final double start = _currentPlayTime;
-  //   final double totalDuration = _calculateTotalDuration();
-  //
-  //   // 🎯 CapCut-like rules
-  //   const double minDuration = 0.5;
-  //   const double defaultDuration = 1.5;
-  //   const double maxDuration = 5.0;
-  //
-  //   // 1️⃣ Base end
-  //   double end = start + defaultDuration;
-  //
-  //   // 2️⃣ Clamp to timeline end
-  //   end = end.clamp(start, totalDuration);
-  //
-  //   // 3️⃣ Enforce minimum duration
-  //   if ((end - start) < minDuration) {
-  //     end = (start + minDuration).clamp(start, totalDuration);
-  //   }
-  //
-  //   // 4️⃣ Enforce maximum duration
-  //   if ((end - start) > maxDuration) {
-  //     end = start + maxDuration;
-  //   }
-  //
-  //   // 5️⃣ Final safety clamp
-  //   end = end.clamp(start, totalDuration);
-  //
-  //   final EffectClip clip = EffectClip(
-  //     id: DateTime.now().millisecondsSinceEpoch.toString(),
-  //     type: type,
-  //     startTime: start,
-  //     endTime: end,
-  //   );
-  //
-  //   setState(() {
-  //     _effectClips.add(clip);
-  //     _selectedEffectClip = clip;
-  //     _activeTool = EditorTool.effects;
-  //   });
-  // }
+
   void _previewEffect(EffectType type) {
     // 🔒 Lock preview start time ON FIRST TAP
     _effectPreviewAnchorTime ??= _currentPlayTime;
@@ -813,20 +883,19 @@ class _EditorScreenState extends State<EditorScreen>
       _showTextInput = true;
     });
   }
-
   void _onTextTap() {
     _saveDiscreteUndoState();
 
     final start = _currentPlayTime;
     final end = (start + 2.0).clamp(start, _calculateTotalDuration());
 
-    final screenWidth = MediaQuery.of(context).size.width;
-    final previewWidth = screenWidth * 0.9;
-    final previewHeight = previewWidth * 16 / 9;
+    // ✅ FALLBACK if previewSize not ready yet
+    final Size previewSize = _previewSize ??
+        const Size(360, 640); // safe 9:16 default
 
     final centerPosition = Offset(
-      previewWidth / 2 - 60,
-      previewHeight / 2 - 20,
+      previewSize.width / 2,
+      previewSize.height / 2,
     );
 
     final clip = TextClip(
@@ -835,8 +904,8 @@ class _EditorScreenState extends State<EditorScreen>
       startTime: start,
       endTime: end,
       position: centerPosition,
-      fontSize: 36,
-      rotation: 0,
+      fontSize: 32,
+      rotation: 0.0,
       color: Colors.white,
       fontFamily: 'Roboto',
       opacity: 1.0,
@@ -848,8 +917,54 @@ class _EditorScreenState extends State<EditorScreen>
       textController.text = clip.text;
 
       _activeTool = EditorTool.text;
-      _showTextInput = true;
+      _showTextInput = true;     // ✅ panel ALWAYS opens
       _showEffectsPanel = false;
+    });
+  }
+
+  void _previewSticker(String assetPath) {
+    final start = _currentPlayTime;
+    final end = (start + 2.0).clamp(start, _calculateTotalDuration());
+
+    final Size previewSize = _previewSize ?? const Size(360, 640);
+
+    setState(() {
+      _previewStickerClip = StickerClip(
+        id: 'preview',
+        assetPath: assetPath,
+        startTime: start,
+        endTime: end,
+        position: Offset(
+          previewSize.width / 2,
+          previewSize.height / 2,
+        ),
+        isPreview: true,
+      );
+
+      _currentPlayTime = start;
+    });
+
+    _startAutoPreview();
+  }
+
+
+  void _applyPreviewSticker() {
+    if (_previewStickerClip == null) return;
+
+    _saveDiscreteUndoState();
+
+    setState(() {
+      _stickerClips.add(
+        _previewStickerClip!.copyWith(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          isPreview: false,
+        ),
+      );
+
+      _selectedStickerClip = _stickerClips.last;
+      _previewStickerClip = null;
+      _showEffectsPanel = false;
+      _activeTool = null;
     });
   }
 
@@ -892,19 +1007,54 @@ class _EditorScreenState extends State<EditorScreen>
                 // PREVIEW AREA
                 // CapCut-style smooth preview animation when keyboard opens
                 Expanded(
+                  flex: isKeyboardVisible ? 0 : 1,
                   child: AnimatedContainer(
                     duration: aniDur,
                     curve: Curves.easeInOut,
 
-                    // 🎯 CAPCUT BEHAVIOR: Move UP by ~45% of keyboard height
-                    // Combined with scale to keep preview visually centered
+                    // 🎯 Calculate proper height when keyboard is visible
+                    height: isKeyboardVisible
+                        ? MediaQuery.of(context).size.height * 0.35  // ~35% of screen
+                        : null,  // Use Expanded's flex when keyboard is closed
+
+                    // Slight scale for visual polish
                     transform: isKeyboardVisible
-                        ? _buildKeyboardTransform(keyboardHeight)
+                        ? Matrix4.diagonal3Values(0.98, 0.98, 1.0)
                         : Matrix4.identity(),
 
                     transformAlignment: Alignment.center,
 
-                    child: PreviewArea(
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        // Calculate actual preview size based on AspectRatio 9:16
+                        final maxWidth = constraints.maxWidth;
+                        final maxHeight = constraints.maxHeight;
+                        final aspectRatio = 9 / 16;
+
+                        double previewWidth;
+                        double previewHeight;
+
+                        if (maxWidth / maxHeight > aspectRatio) {
+                          // Height constrained
+                          previewHeight = maxHeight;
+                          previewWidth = previewHeight * aspectRatio;
+                        } else {
+                          // Width constrained
+                          previewWidth = maxWidth;
+                          previewHeight = previewWidth / aspectRatio;
+                        }
+
+                        // Update preview size for text positioning
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (_previewSize?.width != previewWidth ||
+                              _previewSize?.height != previewHeight) {
+                            setState(() {
+                              _previewSize = Size(previewWidth, previewHeight);
+                            });
+                          }
+                        });
+
+                        return PreviewArea(
                         images: images,
                         currentPreviewIndex: _currentPreviewIndex,
                         currentPlayTime: _currentPlayTime,
@@ -919,7 +1069,47 @@ class _EditorScreenState extends State<EditorScreen>
                         if (_previewEffectClip != null) _previewEffectClip!,
                       ],
 
-                        // ===== TEXT LAYER =====
+
+
+
+
+
+
+                          ///
+                          stickerClips: _stickerClips,
+                          previewStickerClip: _previewStickerClip,
+                          selectedStickerClip: _selectedStickerClip,
+
+                          onStickerSelect: (clip) {
+                            setState(() {
+                              _selectedStickerClip = clip;
+                              // Keep panel closed while trimming/moving stickers.
+                            });
+                          },
+
+                          onStickerMove: (clip, pos) {
+                            setState(() => clip.position = pos);
+                          },
+
+                          onStickerScale: (clip, scale) {
+                            setState(() => clip.scale = scale);
+                          },
+
+                          onStickerRotate: (clip, rotation) {
+                            setState(() => clip.rotation = rotation);
+                          },
+
+                          onStickerRemove: (clip) {
+                            _saveDiscreteUndoState();
+                            setState(() {
+                              _stickerClips.remove(clip);
+                              if (_selectedStickerClip == clip) {
+                                _selectedStickerClip = null;
+                              }
+                            });
+                          },
+
+                          // ===== TEXT LAYER =====
                         textClips: _textClips,
                         selectedTextClip: _selectedTextClip,
 
@@ -954,6 +1144,7 @@ class _EditorScreenState extends State<EditorScreen>
                             _selectedTextClip = null;
                           });
                         },
+
                       onTextClipEdit: (clip) {
                         setState(() {
                           _selectedTextClip = clip;
@@ -963,9 +1154,10 @@ class _EditorScreenState extends State<EditorScreen>
                           _showEffectsPanel = false;
                         });
                       },
-
-                      ),
+                    );
+                      },
                     ),
+                  ),
                 ),
 
 
@@ -973,8 +1165,16 @@ class _EditorScreenState extends State<EditorScreen>
                 _buildTimelineControls(),
 
                 // TIMELINE SECTION
-                // CapCut behavior: Timeline stays in place, text panel overlays it
-                _buildTimelineSection(),
+                // CapCut behavior: Timeline fades when panels are open to prevent visual corruption
+                AnimatedOpacity(
+                  duration: aniDur,
+                  opacity: (_showTextInput || _showEffectsPanel || _showTransitionPicker) ? 0.0 : 1.0,
+                  child: _buildTimelineSection(),
+                ),
+
+                // Dynamic spacer when keyboard is visible to push content up
+                if (isKeyboardVisible && (_showTextInput || _showEffectsPanel || _showTransitionPicker))
+                  const Spacer(),
 
                 // NOTE: Panels are now overlaid via Stack (below). We don't
                 // render them here to avoid layout jumps when the keyboard opens.
@@ -1069,30 +1269,57 @@ class _EditorScreenState extends State<EditorScreen>
 
               ),
 
-            // ================= CAPCUT APPLY BUTTON =================
-            if (_showEffectsPanel)
+
+
+            /// ================= STICKER PICKER PANEL =================
+
+            if (_activeTool == EditorTool.stikers)
+              AnimatedPositioned(
+                duration: aniDur,
+                left: 0,
+                right: 0,
+                bottom: keyboardHeight,
+                child: StickerPanel(
+                  onPreview: _previewSticker,
+                  onApply: _previewStickerClip != null
+                      ? _applyPreviewSticker
+                      : null,
+                  canApply: _previewStickerClip != null,
+                  onClose: () {
+                    setState(() {
+                      _previewStickerClip = null;
+                      _activeTool = null;
+                    });
+                  },
+                ),
+              ),
+
+            // ================= TRANSITION PICKER PANEL =================
+            if (_showTransitionPicker)
               AnimatedPositioned(
                 duration: aniDur,
                 curve: Curves.easeInOut,
                 left: 0,
                 right: 0,
                 bottom: keyboardHeight,
-                child: EffectsPanel(
-                  onEffectPreview: _previewEffect,
-                  canApply: _previewEffectClip != null,
-                  onApply: _applyPreviewEffect,
-                  onClose: () {
-                    _effectPreviewTimer?.cancel();
-                    _stopPreview();
-                    setState(() {
-                      _previewEffectClip = null;
-                      _effectPreviewAnchorTime = null;
-                      _showEffectsPanel = false;
-                      _activeTool = null;
-                    });
+
+
+                child: TransitionPicker(
+
+                  selectedType: _selectedPreviewTransitionType,
+                  onPreview: (type) {
+                    if (_previewTransitionIndex != null) {
+                      _previewTransitionEffect(_previewTransitionIndex!, type);
+                    }
                   },
+
+                  onApply: _applyPreviewTransition,
+                  onClose: _cancelPreviewTransition,
+
+
                 ),
               ),
+
 
 
 
@@ -1109,6 +1336,7 @@ class _EditorScreenState extends State<EditorScreen>
               onAudio: _onAudioTap,
               onText: _onTextTap,
               onEffects: _onEffectsTap,
+              stikers:   _onStrikertab,
             ),
     );
   }
@@ -1232,6 +1460,17 @@ class _EditorScreenState extends State<EditorScreen>
   void _deleteSelectedItem() {
     _saveDiscreteUndoState();
 
+    // 0️⃣ DELETE SELECTED STICKER
+    if (_selectedStickerClip != null) {
+      setState(() {
+        _stickerClips.remove(_selectedStickerClip);
+        _selectedStickerClip = null;
+        _activeTool = null;
+      });
+      return;
+    }
+
+
     // 0️⃣ DELETE SELECTED EFFECT
     if (_selectedEffectClip != null) {
       _saveDiscreteUndoState();
@@ -1314,6 +1553,9 @@ class _EditorScreenState extends State<EditorScreen>
       height: baseHeight + textTrackSpace + audioTrackSpace,
       constraints: BoxConstraints(
         maxWidth: MediaQuery.of(context).size.width,
+      ),
+      decoration: const BoxDecoration(
+        color: Color(0xFF0D0D0D), // Same as scaffold background
       ),
       child: Stack(
         children: [
@@ -1434,6 +1676,38 @@ class _EditorScreenState extends State<EditorScreen>
                 });
               },
 
+              // ===================== STICKERS =====================
+              stickerClips: [
+                ..._stickerClips,
+                if (_previewStickerClip != null) _previewStickerClip!,
+              ],
+              selectedStickerClip: _selectedStickerClip,
+              onStickerSelect: (clip) {
+                setState(() {
+                  _selectedStickerClip = clip;
+                  // Keep panel closed while trimming/moving stickers.
+                });
+              },
+              onStickerMove: (clip, newStart, newEnd) {
+                _saveDiscreteUndoState();
+                final snappedStart = _snapTime(newStart);
+                final duration = clip.endTime - clip.startTime;
+
+                setState(() {
+                  clip.startTime = snappedStart;
+                  clip.endTime = snappedStart + duration;
+                  _currentPlayTime = snappedStart;
+                });
+              },
+              onStickerTrim: (clip, newStart, newEnd) {
+                _saveDiscreteUndoState();
+                setState(() {
+                  clip.startTime = newStart;
+                  clip.endTime = newEnd;
+                  _currentPlayTime = newStart;
+                });
+              },
+
               // ===================== TIMELINE SCROLL =====================
               onTimelineScroll: _onTimelineManualScroll,
             ),
@@ -1456,6 +1730,7 @@ class _EditorScreenState extends State<EditorScreen>
                   setState(() {
                     images.add(image);
                     durations.add(2.0);
+                    transitions.add(null); // Add null transition for new image
                     selectedIndex = images.length - 1;
                     _currentPreviewIndex = selectedIndex;
                   });
@@ -1492,28 +1767,29 @@ class _EditorScreenState extends State<EditorScreen>
   }
 
   void _openTransitionPicker(int index) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (_) {
-        return TransitionPicker(
-          onSelect: (transition) {
-            _saveDiscreteUndoState(); // ✅ undo support
+    // Safety check: ensure transitions list is in sync with images
+    if (index < 0 || index >= transitions.length) {
+      // Expand transitions list if needed
+      while (transitions.length <= index) {
+        transitions.add(null);
+      }
+    }
 
-            setState(() {
-              if (transition == TransitionType.none) {
-                transitions[index] = null; // ✅ CLEAR transition
-              } else {
-                transitions[index] = transition;
-              }
-            });
+    // Load existing transition if any
+    final existingTransition = transitions[index];
 
-            Navigator.pop(context);
-          },
-        );
-      },
-    );
+    setState(() {
+      _previewTransitionIndex = index;
+      _showTransitionPicker = true;
+      _showEffectsPanel = false; // Close effects if open
+      _showTextInput = false; // Close text if open
+
+      // Set selected type to existing transition type (if any)
+      _selectedPreviewTransitionType = existingTransition?.type;
+      _previewTransition = existingTransition;
+    });
   }
+
 
 }
 
@@ -1526,6 +1802,7 @@ class EditorSnapshot {
   final AudioClip? audioClip;
   final int selectedIndex;
   final List<EffectClip> effectClips;
+  final List<StickerClip> stickerClips;
   final double currentPlayTime;
 
   EditorSnapshot({
@@ -1535,6 +1812,7 @@ class EditorSnapshot {
     required this.audioClip,
     required this.selectedIndex,
     required this.currentPlayTime,
+    required this.stickerClips,
     required this.effectClips,
   });
 }

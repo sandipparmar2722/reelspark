@@ -2,8 +2,8 @@ import 'package:reelspark/ui/editor/editor.dart';
 
 /// Control button widget with proper gesture handling (CapCut style)
 ///
-/// Uses Listener for lower-level touch handling to avoid conflicts
-/// with parent GestureDetector
+/// Uses GestureDetector with callbacks to prevent conflicts
+/// with parent GestureDetector on text layer
 class ControlButton extends StatelessWidget {
   /// Icon to display
   final IconData icon;
@@ -27,9 +27,12 @@ class ControlButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Listener(
+    return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onPointerUp: (event) => onTap?.call(),
+      onTap: onTap,
+      // Prevent parent GestureDetector from intercepting
+      onPanDown: (_) {},
+      onScaleStart: (_) {},
       child: Container(
         // Larger touch area (56x56) for accessibility
         width: 56,

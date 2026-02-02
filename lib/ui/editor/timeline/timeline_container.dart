@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:reelspark/ui/editor/editor.dart';
+import 'package:reelspark/ui/editor/timeline/sticker_timeline.dart';
 
+import '../../../models/sticker_clip.dart';
 import 'video_timeline.dart';
 import 'text_timeline.dart';
 import 'audio_timeline.dart';
@@ -39,6 +41,16 @@ class TimelineContainer extends StatefulWidget {
   final Function(TextClip)? onTextClipSelect;
   final Function(TextClip, double, double)? onTextClipTrim;
   final Function(TextClip, double, double)? onTextClipMove;
+
+
+
+  final List<StickerClip> stickerClips;
+  final StickerClip? selectedStickerClip;
+  final Function(StickerClip)? onStickerSelect;
+  final Function(StickerClip, double, double)? onStickerMove;
+  final Function(StickerClip, double, double)? onStickerTrim;
+
+
 
   /// ✅ EFFECTS (ADDED – nothing removed)
   final List<EffectClip> effectClips;
@@ -84,6 +96,11 @@ class TimelineContainer extends StatefulWidget {
     required this.effectClips,
     required this.onEffectSelect,
     required this.onEffectMove,
+    required this.stickerClips,
+    this.selectedStickerClip,
+    this.onStickerSelect,
+    this.onStickerMove,
+    this.onStickerTrim,
   });
 
   @override
@@ -226,6 +243,21 @@ class _TimelineContainerState extends State<TimelineContainer> {
 
 
                         ],
+
+                        /// STICKERS
+                        if (widget.stickerClips.isNotEmpty) ...[
+                          const SizedBox(height: TimelineContainer.trackSpacing),
+                          StickerTimeline(
+                            stickers: widget.stickerClips,
+                            totalDuration:
+                            widget.durations.fold(0.0, (a, b) => a + b),
+                            selectedSticker: widget.selectedStickerClip,
+                            onSelect: widget.onStickerSelect,
+                            onMove: widget.onStickerMove,
+                            onTrim: widget.onStickerTrim,
+                          ),
+                        ],
+
 
                         /// TEXT
                         if (widget.textClips.isNotEmpty) ...[

@@ -7,6 +7,7 @@ enum EditorTool {
   audio,
   text,
   effects,
+  stikers,
 }
 
 /// A CapCut-inspired bottom toolbar with icon + label buttons.
@@ -21,6 +22,7 @@ class EditorBottomBar extends StatelessWidget {
   final VoidCallback onAudio;
   final VoidCallback onText;
   final VoidCallback onEffects;
+  final VoidCallback stikers;
 
   // --- State ---
   final EditorTool? activeTool;
@@ -30,6 +32,7 @@ class EditorBottomBar extends StatelessWidget {
     required this.onAudio,
     required this.onText,
     required this.onEffects,
+    required this.stikers,
     this.activeTool,
   });
 
@@ -122,6 +125,12 @@ class EditorBottomBar extends StatelessWidget {
                 icon: Icons.auto_awesome_outlined,
                 label: 'Effects',
                 onTap: onEffects,
+              ),
+              _buildToolItem(
+                tool: EditorTool.stikers,
+                icon: Icons.tag_faces_outlined,
+                label: 'stikers',
+                onTap: stikers,
               ),
             ],
           ),

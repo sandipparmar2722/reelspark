@@ -54,7 +54,29 @@ class RotateScaleHandle extends StatelessWidget {
               ),
             ],
           ),
-          child: const Icon(Icons.rotate_right, color: Colors.white, size: 18),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Rotate icon (primary)
+              Transform.rotate(
+                angle: -0.3, // Slight tilt for visual appeal
+                child: const Icon(Icons.rotate_right, color: Colors.white, size: 16),
+              ),
+              // Scale indicator (small arrows in corners)
+              Positioned(
+                right: 4,
+                bottom: 4,
+                child: Container(
+                  width: 6,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

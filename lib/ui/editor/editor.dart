@@ -94,7 +94,7 @@ export 'widgets/control_button.dart';
 export '../../models/clip_transition.dart';
 
 export 'package:reelspark/ui/editor/editor.dart';
-export 'package:reelspark/ui/editor/transition/transition_picker.dart';
+export 'package:reelspark/ui/editor/panels/transition_picker.dart';
 
 export '../../models/effect_clip.dart';
 

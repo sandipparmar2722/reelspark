@@ -99,8 +99,8 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/lottie/
     - assets/audio/
+    - assets/stickers/
     #testing templates
     - assets/templates/
     - assets/templates/previews/

@@ -3,8 +3,10 @@ import 'dart:ui'; // ✅ REQUIRED for ImageFilter
 import 'package:flutter/material.dart';
 import 'package:reelspark/ui/editor/editor.dart';
 import 'package:reelspark/models/effect_clip.dart';
+import '../../../models/sticker_clip.dart';
 import 'text_layer.dart';
 import 'image_layer.dart';
+import 'sticker_layer.dart';
 
 /// Main preview area widget
 /// - Base image track
@@ -36,6 +38,10 @@ class PreviewArea extends StatelessWidget {
   /// Selected text clip
   final TextClip? selectedTextClip;
 
+  /// Sticker clips
+  final List<StickerClip> stickerClips;
+  final StickerClip? previewStickerClip;
+
   /// Animations from EditorScreen
   final Animation<double> fadeAnimation;
   final Animation<Offset> slideAnimation;
@@ -49,6 +55,14 @@ class PreviewArea extends StatelessWidget {
   final Function(TextClip, double)? onTextRotationChanged;
   final Function(TextClip)? onTextClipRemove;
   final Function(TextClip)? onTextClipEdit;
+
+  final Function(StickerClip)? onStickerSelect;
+  final Function(StickerClip, Offset)? onStickerMove;
+  final Function(StickerClip, double)? onStickerScale;
+  final Function(StickerClip, double)? onStickerRotate;
+  final Function(StickerClip)? onStickerRemove;
+  final StickerClip? selectedStickerClip;
+
 
   const PreviewArea({
     super.key,
@@ -71,6 +85,15 @@ class PreviewArea extends StatelessWidget {
     this.onTextClipEdit,
     required this.keyboardHeight,
     required this.isKeyboardOpen,
+    required this.stickerClips,
+    this.previewStickerClip,
+    this.onStickerSelect,
+    this.onStickerMove,
+    this.onStickerScale,
+    this.onStickerRotate,
+    this.onStickerRemove,
+    this.selectedStickerClip,
+
   });
 
   @override
@@ -82,7 +105,7 @@ class PreviewArea extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
+          behavior: HitTestBehavior.deferToChild,
           onTap: onTapOutside,
           child: AspectRatio(
             aspectRatio: 9 / 16,
@@ -92,6 +115,19 @@ class PreviewArea extends StatelessWidget {
                 /// IMAGE + TRANSITION + EFFECTS
                 _buildEffectOverlay(
                   _buildImageWithTransition(),
+                ),
+
+                /// ================= STICKER LAYER =================
+                StickerLayer(
+                  stickerClips: stickerClips,
+                  currentPlayTime: currentPlayTime,
+                  selectedStickerClip: selectedStickerClip,
+                  previewStickerClip: previewStickerClip,
+                  onStickerSelect: onStickerSelect,
+                  onStickerMove: onStickerMove,
+                  onStickerScale: onStickerScale,
+                  onStickerRotate: onStickerRotate,
+                  onStickerRemove: onStickerRemove,
                 ),
 
                 /// TEXT LAYER
@@ -106,7 +142,6 @@ class PreviewArea extends StatelessWidget {
                   onTextFontSizeChanged: onTextFontSizeChanged,
                   onTextRotationChanged: onTextRotationChanged,
                   onTextClipRemove: onTextClipRemove,
-                  onTextClipEdit: onTextClipEdit,
                 ),
               ],
             ),
@@ -215,7 +250,7 @@ class PreviewArea extends StatelessWidget {
             children: [
               result,
               Container(
-                color: Colors.orange.withOpacity(0.18),
+                color: Colors.orange.withValues(alpha: 0.18),
               ),
             ],
           );
@@ -237,7 +272,7 @@ class PreviewArea extends StatelessWidget {
             children: [
               result,
               Container(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
               ),
             ],
           );
