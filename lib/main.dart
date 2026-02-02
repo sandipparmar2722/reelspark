@@ -4,7 +4,7 @@ import 'inject/injector.dart';
 
 import 'main_app.dart';
 
-
+// check commit
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Injector.setup();
